@@ -8,7 +8,7 @@ MONITOR_PORT=/dev/ttyACM0
 
 ARDUINO_LIBS=SPI Ethernet ArduinoBLE ArduinoOTA PubSubClient arduino-timer-cpp17
 
-CPPFLAGS+=-DDEBUG
+#CPPFLAGS+=-DDEBUG
 
 CXXFLAGS_STD=-std=gnu++17
 
