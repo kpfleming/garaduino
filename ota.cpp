@@ -27,7 +27,7 @@ namespace Garaduino {
 void OTA::start() {
     DEBUG_PRINT(F("Initializing OTA..."));
 
-    ArduinoOTA.begin(::Ethernet.localIP(), OTA_NAME, OTA_PASSWORD, InternalStorage);
+    ArduinoOTA.begin(::Ethernet.localIP(), OTA_USERNAME, OTA_PASSWORD, InternalStorage);
 
     DEBUG_PRINTLN(F(" done"));
 
