@@ -17,9 +17,6 @@
 
 #include "ota.hpp"
 
-#include <SPI.h>
-#include <SD.h>
-#include <SDU.h>
 #include <Ethernet.h>
 
 #define NO_OTA_PORT
@@ -28,18 +25,9 @@
 namespace Garaduino {
 
 void OTA::start() {
-    DEBUG_PRINT(F("Initializing SD card..."));
-
-    if (!::SD.begin(SDCARD_PIN)) {
-	DEBUG_PRINTLN(F(" failed."));
-	while (true);
-    }
-
-    DEBUG_PRINTLN(F(" done"));
-
     DEBUG_PRINT(F("Initializing OTA..."));
 
-    ArduinoOTA.begin(::Ethernet.localIP(), OTA_NAME, OTA_PASSWORD, SDStorage);
+    ArduinoOTA.begin(::Ethernet.localIP(), OTA_NAME, OTA_PASSWORD, InternalStorage);
 
     DEBUG_PRINTLN(F(" done"));
 

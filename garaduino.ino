@@ -35,7 +35,7 @@ Garaduino::Heartbeat heartbeat{timers};
 
 Garaduino::Ethernet ethernet{timers};
 
-Garaduino::OTA ota{timers, SDCARD_PIN};
+Garaduino::OTA ota{timers};
 
 Garaduino::MQTT mqtt{timers};
 

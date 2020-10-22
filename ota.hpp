@@ -23,14 +23,13 @@ namespace Garaduino {
 
 class OTA {
 public:
-    OTA(TimerSet& timers, PinNumber sdcardPin) : timers(timers), sdcardPin(sdcardPin) {};
+    OTA(TimerSet& timers) : timers(timers) {};
     ~OTA() {};
 
     void start();
 
 private:
     TimerSet& timers;
-    PinNumber sdcardPin;
 
     Timers::HandlerResult maintain();
 };

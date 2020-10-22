@@ -32,13 +32,11 @@ const Timers::Timepoint DOOR_SENSOR_DEBOUNCE_MSECS{5000};
 const char MQTT_DOOR_CONTROL_TOPIC[]{"garaduino/door/control"};
 const char MQTT_DOOR_SENSOR_TOPIC[]{"garaduino/door/status"};
 
-const PinNumber SDCARD_PIN{4};
-
 const Timers::Timepoint ETHERNET_POLL_SECS{60};
 
 const char OTA_NAME[]{"garaduino"};
-const char OTA_PASSWORD[]{"lO01ic&7#pBMicMo"};
-const Timers::Timepoint OTA_POLL_SECS{300};
+const char OTA_PASSWORD[]{"nOB44lt3GMRGpx68"};
+const Timers::Timepoint OTA_POLL_SECS{2};
 
 const char MQTT_BROKER_NAME[]{"192.168.64.108"};
 const PortNumber MQTT_BROKER_PORT{1883};
