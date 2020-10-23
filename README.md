@@ -21,6 +21,13 @@ door, light level, and vehicle presence. It supports Over the Air
 
 ## Features
 
+Garaduino provides control of a garage door (via connection to its opener)
+and status of the door; measurement of the outdoor light level; and presence
+detection of a vehicle in the garage (using a BLE beacon in the vehicle).
+
+All of these features are supported via MQTT, and can be used with the
+Home Assistant MQTT Cover and MQTT Sensor device configurations.
+
 ## Requirements
 
 ### Hardware
@@ -53,7 +60,7 @@ the Bluetooth support included in the MKR WiFi 1010.
 * Arduino IDE. Required to obtain the toolchain
 (compiler/linker/etc.) and libraries.  It is also used to bootstrap
 the board so that Garaduino can be installed (see Installation section
-below). This can be installed using any available method; this sketch
+below). The IDE can be installed using any available method; this sketch
 was developed using version 1.8.13 but any recent version should work.
 
 * Board package for your selected board. The simplest way to install
@@ -81,11 +88,13 @@ the library that you downloaded.
 
 * [Arduino-Makefile](https://github.com/sudar/Arduino-Makefile). Rather
 than use the Arduino IDE for development, build, and upload, this project
-use the Arduino-Makefile kit to allow all of these operations to be done
+uses the Arduino-Makefile kit to allow all of these operations to be done
 from the command line. Use of this kit also eliminates the need to modify
 the Arduino IDE toolchain configuration to support C++17 mode in the
 compiler. GNU Make will also be required, and can be installed using your
-operating system's normal software installation tools.
+operating system's normal software installation tools. For monitoring the
+output of the Arduino (when a DEBUG build is in place), GNU Screen will
+be required too.
 
 * MQTT broker. An MQTT broker will be required to communicate with
 Garaduino. The sketch was developed using the Mosquitto broker (which
@@ -133,4 +142,6 @@ consistent name.
 The sketch was developed using a BlueCharm BC037, which was configured
 using the Eddystone Android app.
 
-## Software Configuration and Build
+## Software Configuration, Build, and Installation
+
+See [BUILD.md](BUILD.md).
