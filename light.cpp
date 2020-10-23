@@ -17,6 +17,8 @@
 
 #include "light.hpp"
 
+#include "config.hpp"
+
 namespace Garaduino {
 
 void Light::start() {

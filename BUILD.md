@@ -9,18 +9,28 @@ the Ethernet interface. The Ethernet Shield may have a MAC address
 included on a printed sticker; if not, any MAC address can be used as
 long as it does not conflict with any other device on the network.
 
+    Note: the default MAC address in Garaduino matches the one in
+	the OTEthernet example sketch which is used below, so it is
+	safe to use the default for basic testing of the build and
+	bootstrap process.
+
 * Password - the OTA upload process uses a username/password
 combination to authenticate the uploader. The username is fixed as
 'arduino', but the password can be any string of characters.
+
+    Note: the default password in Garaduino matches the one in
+	the OTEthernet example sketch which is used below, so it is
+	safe to use the default for basic testing of the build and
+	bootstrap process.
 
 * IPv4 address - Garaduino assumes that the network will use DHCP to
 provide an address, and since the address will be associated with the
 MAC address it will be obtained after the board has been bootstrapped.
 
 To get started, launch the Arduino IDE, connect the Arduino to the
-computer over USB, and open the OT_Ethernet sketch.
+computer over USB, and open the OTEthernet sketch.
 
-1. Click File->Examples->ArduinoOTA->OT_Ethernet.
+1. Click File->Examples->ArduinoOTA->OTEthernet.
 
 1. Enter the MAC address in the line which begins with `byte mac[]`,
 replacing the existing MAC address.

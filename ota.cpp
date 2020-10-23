@@ -17,6 +17,8 @@
 
 #include "ota.hpp"
 
+#include "config.hpp"
+
 #include <Ethernet.h>
 
 #define NO_OTA_PORT

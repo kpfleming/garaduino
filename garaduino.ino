@@ -27,13 +27,15 @@
 #include "light.hpp"
 #include "door.hpp"
 
+#include "config.hpp"
+
 namespace {
 
 TimerSet timers;
 
 Garaduino::Heartbeat heartbeat{timers};
 
-Garaduino::Ethernet ethernet{timers};
+Garaduino::Ethernet ethernet{timers, ETHERNET_MAC};
 
 Garaduino::OTA ota{timers};
 

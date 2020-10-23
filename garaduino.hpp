@@ -33,5 +33,3 @@ using TimerSet = Timers::TimerSet<10, Timers::Clock::millis>;
 
 using PinNumber = std::uint8_t;
 using PortNumber = std::uint16_t;
-
-#include "config.hpp"

@@ -17,6 +17,8 @@
 
 #include "ble.hpp"
 
+#include "config.hpp"
+
 #include <ArduinoBLE.h>
 
 namespace Garaduino {

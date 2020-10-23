@@ -17,19 +17,26 @@
 
 #pragma once
 
+#include <array>
+#include <cstdint>
+#undef LITTLE_ENDIAN
+
 #include "garaduino.hpp"
 
 namespace Garaduino {
 
 class Ethernet {
 public:
-    Ethernet(TimerSet& timers) : timers(timers) {};
+    using macAddress = std::array<uint8_t, 6>;
+
+    Ethernet(TimerSet& timers, macAddress mac) : timers(timers), mac(mac) {};
     ~Ethernet() {};
 
     void start();
 
 private:
     TimerSet& timers;
+    macAddress mac;
 
     Timers::HandlerResult maintain();
 };

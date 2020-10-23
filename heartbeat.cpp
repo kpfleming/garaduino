@@ -17,6 +17,8 @@
 
 #include "heartbeat.hpp"
 
+#include "config.hpp"
+
 namespace Garaduino {
 
 void Heartbeat::start() {

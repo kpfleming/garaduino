@@ -17,6 +17,8 @@
 
 #include "mqtt.hpp"
 
+#include "config.hpp"
+
 #include <array>
 #include <algorithm>
 #include <cstring>

@@ -17,6 +17,8 @@
 
 #include "door.hpp"
 
+#include "config.hpp"
+
 namespace Garaduino {
 
 void Door::start() {

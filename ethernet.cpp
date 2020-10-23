@@ -17,22 +17,16 @@
 
 #include "ethernet.hpp"
 
+#include "config.hpp"
+
 #include <Ethernet.h>
-
-#include <cstdint>
-
-namespace {
-
-std::uint8_t mac[]{ 0x06, 0xAA, 0xBB, 0xCC, 0xDD, 0x01 };
-
-};
 
 namespace Garaduino {
 
 void Ethernet::start() {
     DEBUG_PRINT(F("Initializing Ethernet with DHCP..."));
 
-    if (::Ethernet.begin(mac) == 0) {
+    if (::Ethernet.begin(mac.data()) == 0) {
 	DEBUG_PRINTLN(F(" failed"));
 	if (::Ethernet.hardwareStatus() == EthernetNoHardware) {
 	    DEBUG_PRINTLN(F("Ethernet hardware was not found."));
