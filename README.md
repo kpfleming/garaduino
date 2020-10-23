@@ -94,7 +94,7 @@ the Arduino IDE toolchain configuration to support C++17 mode in the
 compiler. GNU Make will also be required, and can be installed using your
 operating system's normal software installation tools. For monitoring the
 output of the Arduino (when a DEBUG build is in place), GNU Screen will
-be required too.
+be required too. Clone this repository into a suitable location.
 
 * MQTT broker. An MQTT broker will be required to communicate with
 Garaduino. The sketch was developed using the Mosquitto broker (which

@@ -46,4 +46,4 @@ const char MQTT_VERSION_TOPIC[]{"garaduino/version"};
 const char BLE_BEACON_NAME[]{"km6gauto"};
 const Timers::Timepoint BLE_POLL_SECS{5};
 const Timers::Timepoint BLE_BEACON_TIMEOUT_SECS{60};
-const char MQTT_BEACON_TOPIC[]{"garaduino/car"};
+const char MQTT_BEACON_TOPIC[]{"garaduino/vehicle"};

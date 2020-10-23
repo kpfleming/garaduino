@@ -1,5 +1,4 @@
 ARDMK_DIR=/home/kpfleming/git-personal/Arduino-Makefile
-USER_LIB_PATH=/home/kpfleming/git-personal/arduino/libraries
 
 ARDUINO_VERSION=10813
 
