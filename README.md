@@ -1,6 +1,8 @@
 # Garaduino
 
-<a href="https://opensource.org"><img height="150" align="left" src="https://opensource.org/files/OSIApprovedCropped.png" alt="Open Source Initiative Approved License logo"></a>
+<a href="https://opensource.org"><img height="150" align="left"
+src="https://opensource.org/files/OSIApprovedCropped.png" alt="Open
+Source Initiative Approved License logo"></a>
 
 Arduino sketch for a garage-monitoring system which supports a garage
 door, light level sensing, and BLE beacon for the vehicle.
@@ -21,9 +23,10 @@ door, light level, and vehicle presence. It supports Over the Air
 
 ## Features
 
-Garaduino provides control of a garage door (via connection to its opener)
-and status of the door; measurement of the outdoor light level; and presence
-detection of a vehicle in the garage (using a BLE beacon in the vehicle).
+Garaduino provides control of a garage door (via connection to its
+opener) and status of the door; measurement of the outdoor light
+level; and presence detection of a vehicle in the garage (using a BLE
+beacon in the vehicle).
 
 All of these features are supported via MQTT, and can be used with the
 Home Assistant MQTT Cover and MQTT Sensor device configurations.
@@ -42,7 +45,8 @@ Arduino MKR WiFi 1010.
    boards do not support those features.
 
 * An Ethernet interface supported by the standard Arduino Ethernet
-library. The sketch was developd using an Arduino MKR Ethernet Shield.
+library. The sketch was developed using an Arduino MKR Ethernet
+Shield.
 
 * Connections to two analog pins, and a door control relay on a
 digital pin. The sketch was developed using an Arduino MKR Relay Proto
@@ -57,22 +61,26 @@ the Bluetooth support included in the MKR WiFi 1010.
 
 ### Software
 
-* Arduino IDE. Required to obtain the toolchain
-(compiler/linker/etc.) and libraries.  It is also used to bootstrap
-the board so that Garaduino can be installed (see Installation section
-below). The IDE can be installed using any available method; this sketch
-was developed using version 1.8.13 but any recent version should work.
+* Arduino IDE. Required to obtain the toolchain (compiler/linker/etc.)
+and libraries.  It is also used to bootstrap the board so that
+Garaduino can be installed (see Installation section below). The IDE
+can be installed using any available method; this sketch was developed
+using version 1.8.13 but any recent version should work.
 
 * Board package for your selected board. The simplest way to install
 it is to open the Arduino IDE and then plug your board into the
 computer via USB. The IDE will detect it and prompt you to allow the
-installation of the necessary package. This sketch was developed
-using version 1.8.9 of the SAM board package.
+installation of the necessary package. This sketch was developed using
+version 1.8.9 of the SAM board package.
 
-* Standard Arduino libraries (Ethernet, ArduinoOTA, ArduinoBLE,
-PubSubClient). The simplest way to install them is to open the Arduino
-IDE and select Tools->Manage Libraries from the menu, then find each
-one and click the 'Install' button.
+* Standard Arduino libraries
+([Ethernet](https://github.com/arduino-libraries/Ethernet),
+[ArduinoOTA](https://github.com/jandrassy/ArduinoOTA),
+[ArduinoBLE](https://github.com/arduino-libraries/ArduinoBLE),
+[PubSubClient](https://github.com/knolleary/pubsubclient)). The
+simplest way to install them is to open the Arduino IDE and select
+Tools->Manage Libraries from the menu, then find each one and click
+the 'Install' button.
 
 * [arduino-timer-cpp17](https://github.com/kpfleming/arduino-timer-cpp17)
 library. Since this is not a standard library, it can't be installed
@@ -87,14 +95,15 @@ downloaded file and install it. Note that you may have to update the
 the library that you downloaded.
 
 * [Arduino-Makefile](https://github.com/sudar/Arduino-Makefile). Rather
-than use the Arduino IDE for development, build, and upload, this project
-uses the Arduino-Makefile kit to allow all of these operations to be done
-from the command line. Use of this kit also eliminates the need to modify
-the Arduino IDE toolchain configuration to support C++17 mode in the
-compiler. GNU Make will also be required, and can be installed using your
-operating system's normal software installation tools. For monitoring the
-output of the Arduino (when a DEBUG build is in place), GNU Screen will
-be required too. Clone this repository into a suitable location.
+than use the Arduino IDE for development, build, and upload, this
+project uses the Arduino-Makefile kit to allow all of these operations
+to be done from the command line. Use of this kit also eliminates the
+need to modify the Arduino IDE toolchain configuration to support
+C++17 mode in the compiler. GNU Make will also be required, and can be
+installed using your operating system's normal software installation
+tools. For monitoring the output of the Arduino (when a DEBUG build is
+in place), GNU Screen will be required too. Clone this repository into
+a suitable location.
 
 * MQTT broker. An MQTT broker will be required to communicate with
 Garaduino. The sketch was developed using the Mosquitto broker (which
@@ -131,10 +140,10 @@ and to a voltage source compatible with the analog input of the chosen
 board. In addition a pull-down resistor must be used to hold the input
 'low' when the LDR in its 'open' (dark) state.
 
-The sketch was developed using an NTE 02-LDR2 and a 1/8W 100KOhm resistor
-installed into the provided pads on the MKR Relay Proto Shield. The
-high resistor value was chosen in order to provide sufficiently wide
-range between 'light' and 'dark' states of the LDR.
+The sketch was developed using an NTE 02-LDR2 and a 1/8W 100KOhm
+resistor installed into the provided pads on the MKR Relay Proto
+Shield. The high resistor value was chosen in order to provide
+sufficiently wide range between 'light' and 'dark' states of the LDR.
 
 ### Vehicle Sensor
 
