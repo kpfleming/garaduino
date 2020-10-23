@@ -6,7 +6,7 @@ ARDUINO_VERSION=10813
 BOARD_TAG=mkrwifi1010
 MONITOR_PORT=/dev/ttyACM0
 
-ARDUINO_LIBS=SPI Ethernet ArduinoBLE ArduinoOTA PubSubClient arduino-timer-cpp17
+ARDUINO_LIBS=SPI Ethernet ArduinoBLE ArduinoOTA PubSubClient arduino-timer-cpp17-4.4.1
 
 #CPPFLAGS+=-DDEBUG
 
