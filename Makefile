@@ -13,6 +13,7 @@ ARDUINO_LIBS=SPI Ethernet ArduinoBLE ArduinoOTA PubSubClient arduino-timer-cpp17
 CXXFLAGS_STD=-std=gnu++17
 
 ARDUINO_OTA_TARGET=garaduino.km6g.us
+ARDUINO_OTA_PORT=65280
 ARDUINO_OTA_USERNAME=arduino
 ARDUINO_OTA_PASSWORD=nOB44lt3GMRGpx68
 
@@ -41,7 +42,7 @@ else
 endif
 
 ota: $(TARGET_BIN) verify_size
-	$(ARDUINO_OTA) -address $(ARDUINO_OTA_TARGET) -port 65280 -username $(ARDUINO_OTA_USERNAME) -password $(ARDUINO_OTA_PASSWORD) -sketch $(TARGET_BIN) -upload /sketch -b
+	$(ARDUINO_OTA) -address $(ARDUINO_OTA_TARGET) -port $(ARDUINO_OTA_PORT) -username $(ARDUINO_OTA_USERNAME) -password $(ARDUINO_OTA_PASSWORD) -sketch $(TARGET_BIN) -upload /sketch -b
 
 gitversion.hpp:
 	@echo "#define GIT_VERSION \"$(shell git describe --long --tags --dirty)\"" > $@
