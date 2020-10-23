@@ -1,19 +1,19 @@
 ############################################################
 # Configuration settings in this section
 
-ARDMK_DIR=/home/kpfleming/git-personal/Arduino-Makefile
+ARDMK_DIR=<path>
 
 ARDUINO_VERSION=10813
 
-BOARD_TAG=mkrwifi1010
-MONITOR_PORT=/dev/ttyACM0
+BOARD_TAG=<tag>
+MONITOR_PORT=<port>
 
 ARDUINO_LIBS=arduino-timer-cpp17-4.4.1
 
-ARDUINO_OTA_TARGET=garaduino.km6g.us
+ARDUINO_OTA_TARGET=ip.ip.ip.ip-or-hostname
 ARDUINO_OTA_PORT=65280
 ARDUINO_OTA_USERNAME=arduino
-ARDUINO_OTA_PASSWORD=nOB44lt3GMRGpx68
+ARDUINO_OTA_PASSWORD=password
 
 DEBUG=
 
@@ -56,6 +56,6 @@ ota: $(TARGET_BIN) verify_size
 	$(ARDUINO_OTA) -address $(ARDUINO_OTA_TARGET) -port $(ARDUINO_OTA_PORT) -username $(ARDUINO_OTA_USERNAME) -password $(ARDUINO_OTA_PASSWORD) -sketch $(TARGET_BIN) -upload /sketch -b
 
 gitversion.hpp:
-	@echo "#define GIT_VERSION \"$(shell git describe --long --tags --dirty)\"" > $@
+	@echo "#define GIT_VERSION \"$(shell git describe --long --tags)\"" > $@
 
 .PHONY: gitversion.hpp

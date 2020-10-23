@@ -36,14 +36,14 @@ const Timers::Timepoint ETHERNET_POLL_SECS{60};
 
 const Timers::Timepoint OTA_POLL_SECS{2};
 
-const char MQTT_BROKER_NAME[]{"192.168.64.108"};
+const char MQTT_BROKER_NAME[]{"ip.ip.ip.ip"};
 const PortNumber MQTT_BROKER_PORT{1883};
 const char MQTT_CLIENT_NAME[]{"garaduino"};
 const Timers::Timepoint MQTT_POLL_SECS{5};
 const char MQTT_STATUS_TOPIC[]{"garaduino/status"};
 const char MQTT_VERSION_TOPIC[]{"garaduino/version"};
 
-const char BLE_BEACON_NAME[]{"km6gauto"};
+const char BLE_BEACON_NAME[]{"vehicle"};
 const Timers::Timepoint BLE_POLL_SECS{5};
 const Timers::Timepoint BLE_BEACON_TIMEOUT_SECS{60};
 const char MQTT_BEACON_TOPIC[]{"garaduino/vehicle"};
