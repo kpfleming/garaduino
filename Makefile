@@ -1,3 +1,6 @@
+############################################################
+# Configuration settings in this section
+
 ARDMK_DIR=/home/kpfleming/git-personal/Arduino-Makefile
 
 ARDUINO_VERSION=10813
@@ -5,16 +8,25 @@ ARDUINO_VERSION=10813
 BOARD_TAG=mkrwifi1010
 MONITOR_PORT=/dev/ttyACM0
 
-ARDUINO_LIBS=SPI Ethernet ArduinoBLE ArduinoOTA PubSubClient arduino-timer-cpp17-4.4.1
-
-#CPPFLAGS+=-DDEBUG
-
-CXXFLAGS_STD=-std=gnu++17
+ARDUINO_LIBS=arduino-timer-cpp17-4.4.1
 
 ARDUINO_OTA_TARGET=garaduino.km6g.us
 ARDUINO_OTA_PORT=65280
 ARDUINO_OTA_USERNAME=arduino
 ARDUINO_OTA_PASSWORD=nOB44lt3GMRGpx68
+
+DEBUG=
+
+# End of configuration settings
+############################################################
+
+ARDUINO_LIBS+=SPI Ethernet ArduinoBLE ArduinoOTA PubSubClient
+
+ifdef DEBUG
+CPPFLAGS+=-DDEBUG
+endif
+
+CXXFLAGS_STD=-std=gnu++17
 
 CPPFLAGS+=-DOTA_USERNAME=\"$(ARDUINO_OTA_USERNAME)\" -DOTA_PASSWORD=\"$(ARDUINO_OTA_PASSWORD)\"
 
