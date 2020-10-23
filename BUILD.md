@@ -69,8 +69,8 @@ hosts file.
 
 * ARDUINO_OTA_PASSWORD - Password chosen for the OTA upload process.
 
-* DEBUG - Set this to any value to produce a 'debug' build which
-can be monitored via the Arduino USB port.
+* DEBUG - Set this to any value to produce a 'debug' build which can
+be monitored via the Arduino USB port.
 
 Configuration settings in `config.hpp`:
 
@@ -90,17 +90,17 @@ To build the software:
 $ make all
 ```
 
-If this is successful, the final section of the output will look similar
-to this:
+If this is successful, the final section of the output will look
+similar to this:
 
 ```
    text	   data	    bss	    dec	    hex	filename
   64708	      0	   5248	  69956	  11144	build-mkrwifi1010/garaduino.elf
 ```
 
-If the build is not successful, correct any configuration errors and try
-again; if the failures are not caused by configuration errors, open an
-[issue](../../../issues) to report the problem.
+If the build is not successful, correct any configuration errors and
+try again; if the failures are not caused by configuration errors,
+open an [issue](../../issues) to report the problem.
 
 ## Installation
 
@@ -110,8 +110,9 @@ In a second window, run:
 $ make monitor
 ```
 
-This will open a monitor session displaying the output from the Arduino,
-in a similar fashion to the Serial Monitor tool in the Arduino IDE.
+This will open a monitor session displaying the output from the
+Arduino, in a similar fashion to the Serial Monitor tool in the
+Arduino IDE.
 
 Return to the first window, and run:
 
@@ -119,10 +120,10 @@ Return to the first window, and run:
 $ make ota
 ```
 
-This will attempt to connect to the Arduino over the network, upload the
-Garaduino software, and reboot the Arduino. If this is successful, the
-Serial Monitor window will show the startup output from Garaduino as it
-initializes its various components and connects to the network.
+This will attempt to connect to the Arduino over the network, upload
+the Garaduino software, and reboot the Arduino. If this is successful,
+the Serial Monitor window will show the startup output from Garaduino
+as it initializes its various components and connects to the network.
 
 If the OTA upload process fails, double-check that the configuration
 settings are correct. Any configuration changes made in `Makefile`
@@ -133,16 +134,17 @@ $ make clean
 $ make all
 ```
 
-With a debug build in place and the monitor session open, test the various
-sensors connected to the Arduino; each sensor change will generate
-output in the monitor session, and in addition there shoule be regular
-'Heartbeat' message to ensure that Garaduino is running.
+With a debug build in place and the monitor session open, test the
+various sensors connected to the Arduino; each sensor change will
+generate output in the monitor session, and in addition there shoule
+be regular 'Heartbeat' message to ensure that Garaduino is running.
 
-Use a suitable MQTT subscription tool to watch the message
-traffic on the MQTT broker; with that tool displaying *all* topics,
-various messages will be shown as the sensor statuses change. In addition
-the 'garaduino/status' topic will show 'online' and the 'garaduino/version'
-topic will show the version of the Garaduino software.ap
+Use a suitable MQTT subscription tool to watch the message traffic on
+the MQTT broker; with that tool displaying *all* topics, various
+messages will be shown as the sensor statuses change. In addition the
+'garaduino/status' topic will show 'online' and the
+'garaduino/version' topic will show the version of the Garaduino
+software.ap
 
 Finally, to install a non-debug build, edit `Makefile` again to clear
 any value set for `DEBUG`, then:
@@ -152,10 +154,10 @@ $ make clean
 $ make ota
 ```
 
-This will once again build the software and use the OTA upload process to
-install it. Nothing will appear in the monitor session, however, since
-this is a non-debug build, but the MQTT subscription tool should display
-messages as Garaduino restarts.
+This will once again build the software and use the OTA upload process
+to install it. Nothing will appear in the monitor session, however,
+since this is a non-debug build, but the MQTT subscription tool should
+display messages as Garaduino restarts.
 
 Installation is now complete; Garaduino is running on the Arduino, and
 can be updated over the network. Disconnect the USB cable and install
