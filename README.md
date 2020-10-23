@@ -144,4 +144,4 @@ using the Eddystone Android app.
 
 ## Software Configuration, Build, and Installation
 
-See [BUILD.md](BUILD.md).
+See [BUILD](BUILD.md).

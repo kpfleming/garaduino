@@ -104,6 +104,9 @@ open an [issue](../../issues) to report the problem.
 
 ## Installation
 
+Before installing Garaduino, follow the steps in [HARDWARE](HARDWARE.md)
+to connect the sensors.
+
 In a second window, run:
 
 ```sh
@@ -137,7 +140,7 @@ $ make all
 With a debug build in place and the monitor session open, test the
 various sensors connected to the Arduino; each sensor change will
 generate output in the monitor session, and in addition there shoule
-be regular 'Heartbeat' message to ensure that Garaduino is running.
+be regular 'Heartbeat' messages to indicate that Garaduino is running.
 
 Use a suitable MQTT subscription tool to watch the message traffic on
 the MQTT broker; with that tool displaying *all* topics, various
