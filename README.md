@@ -102,6 +102,8 @@ is also the broker most commonly used with Home Assistant).
 
 ## Hardware Configuration
 
+See [HARDWARE](HARDWARE.md) for connection details.
+
 ### Door Sensor
 
 A normally-open switch must be connected to an analog pin and to a
