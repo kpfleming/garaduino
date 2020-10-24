@@ -22,6 +22,8 @@
 
 #include "ethernet.hpp"
 
+namespace Garaduino {
+
 const Timers::Timepoint HEARTBEAT_SECS{10};
 const Timers::Timepoint HEARTBEAT_PULSE_MSECS{250};
 
@@ -38,7 +40,7 @@ const char MQTT_DOOR_CONTROL_TOPIC[]{"garaduino/door/control"};
 const char MQTT_DOOR_SENSOR_TOPIC[]{"garaduino/door/status"};
 
 const Timers::Timepoint ETHERNET_POLL_SECS{60};
-const Garaduino::Ethernet::macAddress ETHERNET_MAC{ 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
+const Ethernet::macAddress ETHERNET_MAC{ 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 
 const Timers::Timepoint OTA_POLL_SECS{2};
 
@@ -53,3 +55,5 @@ const char BLE_BEACON_NAME[]{"vehicle"};
 const Timers::Timepoint BLE_POLL_SECS{5};
 const Timers::Timepoint BLE_BEACON_TIMEOUT_SECS{60};
 const char MQTT_BEACON_TOPIC[]{"garaduino/vehicle"};
+
+};

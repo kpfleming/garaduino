@@ -31,11 +31,11 @@
 
 namespace {
 
-TimerSet timers;
+Garaduino::TimerSet timers;
 
 Garaduino::Heartbeat heartbeat{timers};
 
-Garaduino::Ethernet ethernet{timers, ETHERNET_MAC};
+Garaduino::Ethernet ethernet{timers, Garaduino::ETHERNET_MAC};
 
 Garaduino::OTA ota{timers};
 
@@ -43,9 +43,9 @@ Garaduino::MQTT mqtt{timers};
 
 Garaduino::BLE ble{timers, mqtt};
 
-Garaduino::Light light{timers, mqtt, LIGHT_SENSOR};
+Garaduino::Light light{timers, mqtt, Garaduino::LIGHT_SENSOR};
 
-Garaduino::Door door{timers, mqtt, DOOR_CONTROL, DOOR_SENSOR};
+Garaduino::Door door{timers, mqtt, Garaduino::DOOR_CONTROL, Garaduino::DOOR_SENSOR};
 
 };
 
@@ -63,7 +63,7 @@ void setup() {
     ethernet.start();
     ota.start();
     mqtt.start();
-    mqtt.publish(MQTT_VERSION_TOPIC, GIT_VERSION, true);
+    mqtt.publish(Garaduino::MQTT_VERSION_TOPIC, GIT_VERSION, true);
     ble.start();
     light.start();
     door.start();
