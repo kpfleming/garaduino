@@ -55,7 +55,12 @@ endif
 ota: $(TARGET_BIN) verify_size
 	$(ARDUINO_OTA) -address $(ARDUINO_OTA_TARGET) -port $(ARDUINO_OTA_PORT) -username $(ARDUINO_OTA_USERNAME) -password $(ARDUINO_OTA_PASSWORD) -sketch $(TARGET_BIN) -upload /sketch -b
 
+$(OBJDIR)/garaduino.ino.o: gitversion.hpp
+
 gitversion.hpp:
 	@echo "#define GIT_VERSION \"$(shell git describe --long --tags)\"" > $@
+
+clean::
+	$(REMOVE) gitversion.hpp
 
 .PHONY: gitversion.hpp
