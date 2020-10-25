@@ -156,3 +156,7 @@ using the Eddystone Android app.
 ## Software Configuration, Build, and Installation
 
 See [BUILD](BUILD.md).
+
+## Home Assistant
+
+See [HOMEASSISTANT](HOMEASSISTANT.md).
