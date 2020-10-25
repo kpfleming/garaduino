@@ -29,6 +29,8 @@ const Timers::Timepoint HEARTBEAT_PULSE_MSECS{250};
 
 const PinNumber LIGHT_SENSOR{A2};
 const Timers::Timepoint LIGHT_SENSOR_POLL_SECS{30};
+const int LIGHT_LEVEL_DIM{100};
+const int LIGHT_LEVEL_BRIGHT{600};
 const char MQTT_LIGHT_TOPIC[]{"garaduino/light"};
 
 const PinNumber DOOR_CONTROL{1};

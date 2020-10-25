@@ -26,9 +26,15 @@ void Light::start() {
 }
 
 auto Light::getState() -> State {
-    // auto sense = analogRead(LIGHT_SENSOR);
+    int sense = analogRead(LIGHT_SENSOR);
 
-    return State::unknown;
+    if (sense < LIGHT_LEVEL_DIM) {
+	return State::dark;
+    } else if (sense < LIGHT_LEVEL_BRIGHT) {
+	return State::dim;
+    } else {
+	return State::bright;
+    }
 }
 
 void Light::publishState(State state) {
