@@ -34,6 +34,14 @@ public:
 
     void start();
 
+    // ensure that these objects will never be copied or moved
+    // (this could only happen by accident)
+    Ethernet() = delete;
+    Ethernet(const Ethernet&) = delete;
+    Ethernet& operator=(const Ethernet&) = delete;
+    Ethernet(Ethernet&&) = delete;
+    Ethernet& operator=(Ethernet&&) = delete;
+
 private:
     TimerSet& timers;
     macAddress mac;

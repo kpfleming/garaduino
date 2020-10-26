@@ -29,6 +29,14 @@ public:
 
     void start();
 
+    // ensure that these objects will never be copied or moved
+    // (this could only happen by accident)
+    Light() = delete;
+    Light(const Light&) = delete;
+    Light& operator=(const Light&) = delete;
+    Light(Light&&) = delete;
+    Light& operator=(Light&&) = delete;
+
 private:
     TimerSet& timers;
     MQTT& mqtt;

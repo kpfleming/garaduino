@@ -29,6 +29,14 @@ public:
 
     void start();
 
+    // ensure that these objects will never be copied or moved
+    // (this could only happen by accident)
+    BLE() = delete;
+    BLE(const BLE&) = delete;
+    BLE& operator=(const BLE&) = delete;
+    BLE(BLE&&) = delete;
+    BLE& operator=(BLE&&) = delete;
+
 private:
     TimerSet& timers;
     MQTT& mqtt;

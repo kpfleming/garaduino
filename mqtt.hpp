@@ -41,6 +41,14 @@ public:
     using subscriptionHandler = std::function<void (const String&)>;
     bool subscribe(const char* topic, subscriptionHandler&& handler);
 
+    // ensure that these objects will never be copied or moved
+    // (this could only happen by accident)
+    MQTT() = delete;
+    MQTT(const MQTT&) = delete;
+    MQTT& operator=(const MQTT&) = delete;
+    MQTT(MQTT&&) = delete;
+    MQTT& operator=(MQTT&&) = delete;
+
 private:
     TimerSet& timers;
 

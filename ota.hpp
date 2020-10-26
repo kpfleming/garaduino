@@ -28,6 +28,14 @@ public:
 
     void start();
 
+    // ensure that these objects will never be copied or moved
+    // (this could only happen by accident)
+    OTA() = delete;
+    OTA(const OTA&) = delete;
+    OTA& operator=(const OTA&) = delete;
+    OTA(OTA&&) = delete;
+    OTA& operator=(OTA&&) = delete;
+
 private:
     TimerSet& timers;
 
