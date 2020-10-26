@@ -43,7 +43,7 @@ Garaduino::MQTT mqtt{timers};
 
 Garaduino::BLE ble{timers, mqtt};
 
-Garaduino::Light light{timers, mqtt, Garaduino::LIGHT_SENSOR};
+Garaduino::Light light{timers, mqtt, Garaduino::LIGHT_STATE_MAP, Garaduino::LIGHT_SENSOR};
 
 Garaduino::Door door{timers, mqtt, Garaduino::DOOR_CONTROL, Garaduino::DOOR_SENSOR};
 

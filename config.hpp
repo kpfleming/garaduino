@@ -17,10 +17,8 @@
 
 #pragma once
 
-#include <array>
-#include <cstdint>
-
 #include "ethernet.hpp"
+#include "light.hpp"
 
 namespace Garaduino {
 
@@ -31,6 +29,7 @@ const PinNumber LIGHT_SENSOR{A2};
 const Timers::Timepoint LIGHT_SENSOR_POLL_SECS{30};
 const int LIGHT_LEVEL_DIM{100};
 const int LIGHT_LEVEL_BRIGHT{600};
+const Light::stateMap LIGHT_STATE_MAP{{100, "dark"}, {250, "dim"}, {600, "light"}, {1024, "bright"}};
 const char MQTT_LIGHT_TOPIC[]{"garaduino/light"};
 
 const PinNumber DOOR_CONTROL{1};

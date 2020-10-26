@@ -24,6 +24,11 @@
 #define NO_OTA_PORT
 #include <ArduinoOTA.h>
 
+#ifndef OTA_USERNAME
+#define OTA_USERNAME "arduino"
+#define OTA_PASSWORD "password"
+#endif
+
 namespace Garaduino {
 
 void OTA::start() {

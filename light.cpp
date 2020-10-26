@@ -25,47 +25,30 @@ void Light::start() {
     timers.now_and_every(LIGHT_SENSOR_POLL_SECS * 1000, [this]{ return maintain(); });
 }
 
-auto Light::getState() -> State {
+const Light::stateMapEntry& Light::getStateMapEntry() {
     int sense = analogRead(LIGHT_SENSOR);
 
-    if (sense < LIGHT_LEVEL_DIM) {
-	return State::dark;
-    } else if (sense < LIGHT_LEVEL_BRIGHT) {
-	return State::dim;
-    } else {
-	return State::bright;
+    for (auto& entry: map) {
+	if (sense <= entry.level) {
+	    return entry;
+	}
     }
+
+    return map.back();
 }
 
-void Light::publishState(State state) {
-    String stateString;
-
-    switch (state) {
-    case State::dark:
-	stateString = "dark";
-	break;
-    case State::dim:
-	stateString = "dim";
-	break;
-    case State::bright:
-	stateString = "bright";
-	break;
-    case State::unknown:
-	stateString = "unknown";
-	break;
-    }
-
+void Light::publishState(const stateMapEntry& entry) {
     DEBUG_PRINT(F("Light level is "));
-    DEBUG_PRINTLN(stateString);
-    mqtt.publish(MQTT_LIGHT_TOPIC, stateString, true);
+    DEBUG_PRINTLN(entry.state);
+    mqtt.publish(MQTT_LIGHT_TOPIC, entry.state, true);
 }
 
 Timers::HandlerResult Light::maintain() {
-    State current{getState()};
+    const stateMapEntry& current{getStateMapEntry()};
 
-    if (current != lastState) {
+    if (current.state != lastStateMapEntry.state) {
 	publishState(current);
-	lastState = current;
+	lastStateMapEntry = current;
     }
 
     return Timers::TimerStatus::repeat;

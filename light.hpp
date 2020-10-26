@@ -17,6 +17,8 @@
 
 #pragma once
 
+#include <vector>
+
 #include "garaduino.hpp"
 #include "mqtt.hpp"
 
@@ -24,7 +26,14 @@ namespace Garaduino {
 
 class Light {
 public:
-    Light(TimerSet& timers, MQTT& mqtt, PinNumber sensor) : timers(timers), mqtt(mqtt), sensor(sensor) {};
+    struct stateMapEntry {
+	int level;
+	const char* state;
+    };
+
+    using stateMap = std::vector<stateMapEntry>;
+
+    Light(TimerSet& timers, MQTT& mqtt, const stateMap& map, PinNumber sensor) : timers(timers), mqtt(mqtt), map(map), sensor(sensor) {};
     ~Light() {};
 
     void start();
@@ -40,17 +49,12 @@ public:
 private:
     TimerSet& timers;
     MQTT& mqtt;
+    const stateMap& map;
     PinNumber sensor;
 
-    enum class State {
-	unknown,
-	dark,
-	dim,
-	bright,
-    };
-    State lastState{State::unknown};
-    State getState();
-    void publishState(State state);
+    stateMapEntry lastStateMapEntry{};
+    const stateMapEntry& getStateMapEntry();
+    void publishState(const stateMapEntry& entry);
 
     Timers::HandlerResult maintain();
 };
