@@ -8,22 +8,23 @@ ARDUINO_VERSION=10813
 BOARD_TAG=<tag>
 MONITOR_PORT=<port>
 
-ARDUINO_LIBS=arduino-timer-cpp17-4.4.1
+ARDUINO_LIBS=arduino-timer-cpp17-4.5.0
 
 ARDUINO_OTA_TARGET=ip.ip.ip.ip-or-hostname
 ARDUINO_OTA_PORT=65280
 ARDUINO_OTA_USERNAME=arduino
 ARDUINO_OTA_PASSWORD=password
 
-DEBUG=
+SERIAL_DEBUG=
+OPTIMIZATION_LEVEL=s
 
 # End of configuration settings
 ############################################################
 
 ARDUINO_LIBS+=SPI Ethernet ArduinoBLE ArduinoOTA PubSubClient
 
-ifdef DEBUG
-CPPFLAGS+=-DDEBUG
+ifdef SERIAL_DEBUG
+CPPFLAGS+=-DSERIAL_DEBUG
 endif
 
 CXXFLAGS_STD=-std=gnu++17
