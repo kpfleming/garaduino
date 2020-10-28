@@ -35,6 +35,8 @@ void BLE::start() {
 
     DEBUG_PRINTLN(F(" done"));
 
+    mqtt.subscribe(MQTT_REFRESH_TOPIC, [this](const String &){ return refresh(); });
+
     timers.every(BLE_POLL_SECS * 1000, [this]{ return maintain(); });
     // setup an initial state publication if beacon is not seen
     beacon_timer = timers.in(BLE_BEACON_TIMEOUT_SECS * 1000, [this]{ return expire(); });
@@ -91,6 +93,11 @@ Timers::HandlerResult BLE::expire() {
     beacon_timer = Timers::TimerHandle{};
 
     return Timers::TimerStatus::completed;
+}
+
+void BLE::refresh() {
+    DEBUG_PRINTLN(F("BLE refresh"));
+    publishState(lastState);
 }
 
 };

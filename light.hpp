@@ -55,6 +55,7 @@ private:
     stateMapEntry lastStateMapEntry{};
     const stateMapEntry& getStateMapEntry();
     void publishState(const stateMapEntry& entry);
+    void refresh();
 
     Timers::HandlerResult maintain();
 };

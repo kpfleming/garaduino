@@ -51,6 +51,7 @@ const char MQTT_CLIENT_NAME[]{"garaduino"};
 const Timers::Timepoint MQTT_POLL_SECS{5};
 const char MQTT_STATUS_TOPIC[]{"garaduino/status"};
 const char MQTT_VERSION_TOPIC[]{"garaduino/version"};
+const char MQTT_REFRESH_TOPIC[]{"garaduino/refresh"};
 
 const char BLE_BEACON_NAME[]{"vehicle"};
 const Timers::Timepoint BLE_POLL_SECS{5};

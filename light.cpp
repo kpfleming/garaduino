@@ -22,6 +22,8 @@
 namespace Garaduino {
 
 void Light::start() {
+    mqtt.subscribe(MQTT_REFRESH_TOPIC, [this](const String &){ return refresh(); });
+
     timers.now_and_every(LIGHT_SENSOR_POLL_SECS * 1000, [this]{ return maintain(); });
 }
 
@@ -52,6 +54,11 @@ Timers::HandlerResult Light::maintain() {
     }
 
     return Timers::TimerStatus::repeat;
+}
+
+void Light::refresh() {
+    DEBUG_PRINTLN(F("light refresh"));
+    publishState(lastStateMapEntry);
 }
 
 };

@@ -52,6 +52,7 @@ private:
     unsigned long debounceStartTime{0};
     State getState();
     void publishState(State state);
+    void refresh();
 
     Timers::HandlerResult setControl(int state);
 

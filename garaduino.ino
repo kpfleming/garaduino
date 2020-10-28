@@ -49,6 +49,15 @@ Garaduino::Door door{timers, mqtt, Garaduino::DOOR_CONTROL, Garaduino::DOOR_SENS
 
 };
 
+void publishVersion() {
+    mqtt.publishAndRetain(Garaduino::MQTT_VERSION_TOPIC, GIT_VERSION);
+}
+
+void refresh(const String&) {
+    DEBUG_PRINTLN(F("core refresh"));
+    publishVersion();
+}
+
 void setup() {
 #ifdef SERIAL_DEBUG
     Serial.begin(9600);
@@ -63,7 +72,8 @@ void setup() {
     ethernet.start();
     ota.start();
     mqtt.start();
-    mqtt.publish(Garaduino::MQTT_VERSION_TOPIC, GIT_VERSION, true);
+    publishVersion();
+    mqtt.subscribe(Garaduino::MQTT_REFRESH_TOPIC, refresh);
     ble.start();
     light.start();
     door.start();

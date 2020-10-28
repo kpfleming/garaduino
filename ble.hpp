@@ -51,6 +51,7 @@ private:
     State lastState{State::unknown};
 
     void publishState(State state);
+    void refresh();
 
     Timers::HandlerResult maintain();
     Timers::HandlerResult expire();

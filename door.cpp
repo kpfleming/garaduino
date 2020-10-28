@@ -26,6 +26,7 @@ void Door::start() {
     digitalWrite(control, LOW);
 
     mqtt.subscribe(MQTT_DOOR_CONTROL_TOPIC, [this](const String& msg){ return handleControlMessage(msg); });
+    mqtt.subscribe(MQTT_REFRESH_TOPIC, [this](const String &){ return refresh(); });
 
     timers.now_and_every(DOOR_SENSOR_POLL_SECS * 1000, [this]{ return maintain(); });
 }
@@ -98,6 +99,11 @@ Timers::HandlerResult Door::setControl(int state) {
     digitalWrite(control, state);
 
     return Timers::TimerStatus::completed;
+}
+
+void Door::refresh() {
+    DEBUG_PRINTLN(F("door refresh"));
+    publishState(lastState);
 }
 
 };
