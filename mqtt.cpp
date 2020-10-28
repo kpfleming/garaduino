@@ -39,16 +39,19 @@ subscriptionArray::iterator findSlotForSubscription() {
 }
 
 void callback(char* topic, byte* payload, unsigned int length) {
+    String safeTopic{topic};
+
     payload[length] = '\0';
+    String safePayload{(char *)payload};
 
     DEBUG_PRINT(F("MQTT message - topic: "));
-    DEBUG_PRINT(topic);
+    DEBUG_PRINT(safeTopic);
     DEBUG_PRINT(F(" payload: "));
-    DEBUG_PRINTLN((char *)payload);
+    DEBUG_PRINTLN(safePayload);
 
     for (auto& subscription: subscriptions) {
-	if (!std::strcmp(subscription.topic, topic)) {
-	    subscription.handler(String((char *)payload));
+	if (safeTopic.equals(subscription.topic)) {
+	    subscription.handler(safePayload);
 	}
     }
 }
@@ -154,6 +157,7 @@ bool MQTT::subscribe(const char* topic, subscriptionHandler&& handler) {
     if (auto slot = findSlotForSubscription(); slot != subscriptions.end()) {
 	slot->topic = topic;
 	slot->handler = std::move(handler);
+	mqtt.subscribe(topic);
 	return true;
     } else {
 	return false;
