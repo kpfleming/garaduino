@@ -50,7 +50,7 @@ Garaduino::Door door{timers, mqtt, Garaduino::DOOR_CONTROL, Garaduino::DOOR_SENS
 };
 
 void setup() {
-#ifdef DEBUG
+#ifdef SERIAL_DEBUG
     Serial.begin(9600);
     while(!Serial);
 #endif
