@@ -35,8 +35,10 @@ public:
 
     void start();
 
-    bool publish(const char* topic, const char* payload, bool retain = false);
-    bool publish(const char* topic, const String& payload, bool retain = false);
+    bool publish(const char* topic, const char* payload);
+    bool publish(const char* topic, const String& payload);
+    bool publishAndRetain(const char* topic, const char* payload);
+    bool publishAndRetain(const char* topic, const String& payload);
 
     using subscriptionHandler = std::function<void (const String&)>;
     bool subscribe(const char* topic, subscriptionHandler&& handler);

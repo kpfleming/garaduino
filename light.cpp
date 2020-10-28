@@ -40,7 +40,7 @@ const Light::stateMapEntry& Light::getStateMapEntry() {
 void Light::publishState(const stateMapEntry& entry) {
     DEBUG_PRINT(F("Light level is "));
     DEBUG_PRINTLN(entry.state);
-    mqtt.publish(MQTT_LIGHT_TOPIC, entry.state, true);
+    mqtt.publishAndRetain(MQTT_LIGHT_TOPIC, entry.state);
 }
 
 Timers::HandlerResult Light::maintain() {

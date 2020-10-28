@@ -126,16 +126,28 @@ bool MQTT::queueMessage(const char* topic, const char* payload, bool retain) {
     }
 }
 
-bool MQTT::publish(const char* topic, const char* payload, bool retain) {
-    if (mqtt.connected() && mqtt.publish(topic, payload, retain)) {
+bool MQTT::publish(const char* topic, const char* payload) {
+    if (mqtt.connected() && mqtt.publish(topic, payload, false)) {
 	return true;
     } else {
-	return queueMessage(topic, payload, retain);
+	return queueMessage(topic, payload, false);
     }
 }
 
-bool MQTT::publish(const char* topic, const String& payload, bool retain) {
-    return publish(topic, payload.c_str(), retain);
+bool MQTT::publish(const char* topic, const String& payload) {
+    return publish(topic, payload.c_str());
+}
+
+bool MQTT::publishAndRetain(const char* topic, const char* payload) {
+    if (mqtt.connected() && mqtt.publish(topic, payload, true)) {
+	return true;
+    } else {
+	return queueMessage(topic, payload, true);
+    }
+}
+
+bool MQTT::publishAndRetain(const char* topic, const String& payload) {
+    return publishAndRetain(topic, payload.c_str());
 }
 
 bool MQTT::subscribe(const char* topic, subscriptionHandler&& handler) {

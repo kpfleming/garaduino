@@ -53,7 +53,7 @@ void Door::publishState(State state) {
 
     DEBUG_PRINT(F("Door is "));
     DEBUG_PRINTLN(stateString);
-    mqtt.publish(MQTT_DOOR_SENSOR_TOPIC, stateString, true);
+    mqtt.publishAndRetain(MQTT_DOOR_SENSOR_TOPIC, stateString);
 }
 
 Timers::HandlerResult Door::maintain() {
