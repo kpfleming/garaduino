@@ -42,9 +42,17 @@ private:
     MQTT& mqtt;
 
     Timers::TimerHandle beacon_timer{};
-    Timers::HandlerResult maintain();
 
-    void publishState(bool present);
+    enum class State {
+	unknown,
+	absent,
+	present
+    };
+    State lastState{State::unknown};
+
+    void publishState(State state);
+
+    Timers::HandlerResult maintain();
     Timers::HandlerResult expire();
 };
 

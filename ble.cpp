@@ -36,6 +36,8 @@ void BLE::start() {
     DEBUG_PRINTLN(F(" done"));
 
     timers.every(BLE_POLL_SECS * 1000, [this]{ return maintain(); });
+    // setup an initial state publication if beacon is not seen
+    beacon_timer = timers.in(BLE_BEACON_TIMEOUT_SECS * 1000, [this]{ return expire(); });
 }
 
 Timers::HandlerResult BLE::maintain() {
@@ -48,8 +50,9 @@ Timers::HandlerResult BLE::maintain() {
 	    if (name.equals(BLE_BEACON_NAME)) {
 		if (beacon_timer) {
 		    timers.reschedule_in(beacon_timer, BLE_BEACON_TIMEOUT_SECS * 1000);
-		} else {
-		    publishState(true);
+		} else if (lastState != State::present) {
+		    publishState(State::present);
+		    lastState = State::present;
 		    beacon_timer = timers.in(BLE_BEACON_TIMEOUT_SECS * 1000, [this]{ return expire(); });
 		}
 	    }
@@ -59,16 +62,31 @@ Timers::HandlerResult BLE::maintain() {
     return Timers::TimerStatus::repeat;
 }
 
-void BLE::publishState(bool present) {
-    String stateString = present ? "present" : "absent";
+void BLE::publishState(State state) {
+    String stateString;
+
+    switch (state) {
+    case State::absent:
+	stateString = "absent";
+	break;
+    case State::present:
+	stateString = "present";
+	break;
+    case State::unknown:
+	stateString = "unknown";
+	break;
+    }
 
     DEBUG_PRINT(F("Beacon is "));
     DEBUG_PRINTLN(stateString);
-    mqtt.publish(MQTT_BEACON_TOPIC, stateString, true);
+    mqtt.publishAndRetain(MQTT_BEACON_TOPIC, stateString);
 }
 
 Timers::HandlerResult BLE::expire() {
-    publishState(false);
+    if (lastState != State::absent) {
+	publishState(State::absent);
+	lastState = State::absent;
+    }
 
     beacon_timer = Timers::TimerHandle{};
 
