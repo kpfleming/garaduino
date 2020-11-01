@@ -29,6 +29,7 @@ const PinNumber LIGHT_SENSOR{A2};
 const Timers::Timepoint LIGHT_SENSOR_POLL_SECS{30};
 const Light::stateMap LIGHT_STATE_MAP{{100, "dark"}, {250, "dim"}, {600, "light"}, {1024, "bright"}};
 const char MQTT_LIGHT_TOPIC[]{"garaduino/light"};
+const char MQTT_LIGHT_RAW_TOPIC[]{"garaduino/light/raw"};
 
 const PinNumber DOOR_CONTROL{1};
 const Timers::Timepoint DOOR_CONTROL_MSECS{100};

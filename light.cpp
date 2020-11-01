@@ -30,6 +30,8 @@ void Light::start() {
 const Light::stateMapEntry& Light::getStateMapEntry() {
     int sense = analogRead(LIGHT_SENSOR);
 
+    mqtt.publish(MQTT_LIGHT_RAW_TOPIC, String(sense));
+
     for (auto& entry: map) {
 	if (sense <= entry.level) {
 	    return entry;
