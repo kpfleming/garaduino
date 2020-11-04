@@ -21,7 +21,7 @@ OPTIMIZATION_LEVEL=s
 # End of configuration settings
 ############################################################
 
-ARDUINO_LIBS+=SPI Ethernet ArduinoBLE ArduinoOTA PubSubClient
+ARDUINO_LIBS+=SPI Ethernet ArduinoBLE ArduinoOTA PubSubClient aWOT
 
 ifdef SERIAL_DEBUG
 CPPFLAGS+=-DSERIAL_DEBUG

@@ -57,4 +57,6 @@ const Timers::Timepoint BLE_POLL_SECS{5};
 const Timers::Timepoint BLE_BEACON_TIMEOUT_SECS{60};
 const char MQTT_BEACON_TOPIC[]{"garaduino/vehicle"};
 
+const Timers::Timepoint WEB_POLL_SECS{2};
+
 };

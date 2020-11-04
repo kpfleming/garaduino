@@ -21,6 +21,7 @@
 
 #include "heartbeat.hpp"
 #include "ethernet.hpp"
+#include "web.hpp"
 #include "ota.hpp"
 #include "mqtt.hpp"
 #include "ble.hpp"
@@ -36,6 +37,8 @@ Garaduino::TimerSet timers;
 Garaduino::Heartbeat heartbeat{timers};
 
 Garaduino::Ethernet ethernet{timers, Garaduino::ETHERNET_MAC};
+
+Garaduino::Web web{timers};
 
 Garaduino::OTA ota{timers};
 
@@ -70,6 +73,7 @@ void setup() {
 
     heartbeat.start();
     ethernet.start();
+    web.start();
     ota.start();
     mqtt.start();
     publishVersion();
