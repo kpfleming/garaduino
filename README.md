@@ -39,7 +39,7 @@ to troubleshoot Garaduino's connections and get raw light sensor readings.
 ### Hardware
 
 * Any ARM-based (SAM core) Arduino should be sufficient for this
-sketch; as of the current release the code requires less than 80KB of
+sketch; as of the current release the code requires less than 90KB of
 Flash and less than 10KB of RAM.  The sketch was developed using an
 Arduino MKR WiFi 1010.
 
