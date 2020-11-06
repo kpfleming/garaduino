@@ -23,6 +23,7 @@ namespace Garaduino {
 
 class Heartbeat {
 public:
+    Heartbeat() = delete;
     Heartbeat(TimerSet& timers) : timers(timers) {};
     ~Heartbeat() {};
 
@@ -30,7 +31,6 @@ public:
 
     // ensure that these objects will never be copied or moved
     // (this could only happen by accident)
-    Heartbeat() = delete;
     Heartbeat(const Heartbeat&) = delete;
     Heartbeat& operator=(const Heartbeat&) = delete;
     Heartbeat(Heartbeat&&) = delete;

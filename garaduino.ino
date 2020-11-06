@@ -36,17 +36,17 @@ Garaduino::TimerSet timers;
 
 Garaduino::Heartbeat heartbeat{timers};
 
-Garaduino::Ethernet ethernet{timers, Garaduino::ETHERNET_MAC};
+Garaduino::Ethernet ethernet{Garaduino::ETHERNET_MAC};
 
-Garaduino::Web web{timers};
+Garaduino::Web web{};
 
-Garaduino::OTA ota{timers};
+Garaduino::OTA ota{};
 
-Garaduino::MQTT mqtt{timers};
+Garaduino::MQTT mqtt{};
 
 Garaduino::BLE ble{timers, mqtt};
 
-Garaduino::Light light{timers, mqtt, Garaduino::LIGHT_STATE_MAP, Garaduino::LIGHT_SENSOR};
+Garaduino::Light light{mqtt, Garaduino::LIGHT_STATE_MAP, Garaduino::LIGHT_SENSOR};
 
 Garaduino::Door door{timers, mqtt, Garaduino::DOOR_CONTROL, Garaduino::DOOR_SENSOR};
 
@@ -72,15 +72,15 @@ void setup() {
     DEBUG_PRINTLN(GIT_VERSION);
 
     heartbeat.start();
-    ethernet.start();
-    web.start();
-    ota.start();
-    mqtt.start();
+    ethernet.start(timers);
+    web.start(timers);
+    ota.start(timers);
+    mqtt.start(timers, web);
     publishVersion();
     mqtt.subscribe(Garaduino::MQTT_REFRESH_TOPIC, refresh);
-    ble.start();
-    light.start();
-    door.start();
+    ble.start(web);
+    light.start(timers, web);
+    door.start(web);
 
     DEBUG_PRINTLN(F("Garaduino started"));
 }

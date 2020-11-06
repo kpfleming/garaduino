@@ -21,14 +21,16 @@
 
 namespace Garaduino {
 
-void Door::start() {
+void Door::start(Web& web) {
     pinMode(control, OUTPUT);
     digitalWrite(control, LOW);
 
-    mqtt.subscribe(MQTT_DOOR_CONTROL_TOPIC, [this](const String& msg){ return handleControlMessage(msg); });
-    mqtt.subscribe(MQTT_REFRESH_TOPIC, [this](const String &){ return refresh(); });
+    mqtt.subscribe(MQTT_DOOR_CONTROL_TOPIC, [this](const String& msg) { return handleControlMessage(msg); });
+    mqtt.subscribe(MQTT_REFRESH_TOPIC, [this](const String &) { return refresh(); });
 
-    timers.now_and_every(DOOR_SENSOR_POLL_SECS * 1000, [this]{ return maintain(); });
+    web.addStatusItemProvider("door", [this]()->auto& { return statusItems; });
+
+    timers.now_and_every(DOOR_SENSOR_POLL_SECS * 1000, [this] { return maintain(); });
 }
 
 auto Door::getState() -> State {
@@ -38,23 +40,21 @@ auto Door::getState() -> State {
 }
 
 void Door::publishState(State state) {
-    String stateString;
-
     switch (state) {
     case State::closed:
-	stateString = "closed";
+	lastStateString = "closed";
 	break;
     case State::open:
-	stateString = "open";
+	lastStateString = "open";
 	break;
     case State::unknown:
-	stateString = "unknown";
+	lastStateString = "unknown";
 	break;
     }
 
     DEBUG_PRINT(F("Door is "));
-    DEBUG_PRINTLN(stateString);
-    mqtt.publishAndRetain(MQTT_DOOR_SENSOR_TOPIC, stateString);
+    DEBUG_PRINTLN(lastStateString);
+    mqtt.publishAndRetain(MQTT_DOOR_SENSOR_TOPIC, lastStateString);
 }
 
 Timers::HandlerResult Door::maintain() {
@@ -92,7 +92,7 @@ void Door::handleControlMessage(const String& message) {
 void Door::triggerOpener() {
     setControl(HIGH);
 
-    timers.in(DOOR_CONTROL_MSECS, [this]{ return setControl(LOW); });
+    timers.in(DOOR_CONTROL_MSECS, [this] { return setControl(LOW); });
 }
 
 Timers::HandlerResult Door::setControl(int state) {

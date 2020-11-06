@@ -60,7 +60,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
 namespace Garaduino {
 
-void MQTT::start() {
+void MQTT::start(TimerSet& timers, Web& web) {
     DEBUG_PRINT(F("Initializing MQTT..."));
 
     mqtt.setServer(MQTT_BROKER_NAME, MQTT_BROKER_PORT);
@@ -71,6 +71,8 @@ void MQTT::start() {
     } else {
 	DEBUG_PRINTLN(F(" failed"));
     }
+
+    web.addStatusItemProvider("mqtt", [this]()->auto& { return statusItems; });
 
     timers.every(MQTT_POLL_SECS * 1000, [this]{ return maintain(); });
 }
@@ -89,8 +91,10 @@ bool MQTT::connect() {
 		mqtt.subscribe(subscription.topic);
 	    }
 	}
+	lastStateString = "connected";
 	return true;
     } else {
+	lastStateString = "not connected";
 	return false;
     }
 }

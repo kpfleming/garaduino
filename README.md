@@ -31,6 +31,9 @@ beacon in the vehicle).
 All of these features are supported via MQTT, and can be used with the
 Home Assistant MQTT Cover and MQTT Sensor device configurations.
 
+In addition there is a simple read-only web interface which can be used
+to troubleshoot Garaduino's connections and get raw light sensor readings.
+
 ## Requirements
 
 ### Hardware
@@ -73,14 +76,16 @@ computer via USB. The IDE will detect it and prompt you to allow the
 installation of the necessary package. This sketch was developed using
 version 1.8.9 of the SAM board package.
 
-* Standard Arduino libraries
-([Ethernet](https://github.com/arduino-libraries/Ethernet),
-[ArduinoOTA](https://github.com/jandrassy/ArduinoOTA),
-[ArduinoBLE](https://github.com/arduino-libraries/ArduinoBLE),
-[PubSubClient](https://github.com/knolleary/pubsubclient)). The
-simplest way to install them is to open the Arduino IDE and select
-Tools->Manage Libraries from the menu, then find each one and click
-the 'Install' button.
+* Standard Arduino libraries:
+    * ([Ethernet](https://github.com/arduino-libraries/Ethernet)
+    * [ArduinoOTA](https://github.com/jandrassy/ArduinoOTA)
+    * [ArduinoBLE](https://github.com/arduino-libraries/ArduinoBLE)
+    * [PubSubClient](https://github.com/knolleary/pubsubclient))
+    * [aWOT](https://github.com/lasselukkari/aWOT)
+
+    The simplest way to install them is to open the Arduino IDE and select
+    Tools->Manage Libraries from the menu, then find each one and click
+    the 'Install' button.
 
 * [arduino-timer-cpp17](https://github.com/kpfleming/arduino-timer-cpp17)
 library. Since this is not a standard library, it can't be installed
@@ -156,6 +161,14 @@ using the Eddystone Android app.
 ## Software Configuration, Build, and Installation
 
 See [BUILD](BUILD.md).
+
+## Web interface
+
+Once Garaduino is up and running, use a browser to navigate to its
+IP address (or hostname, if one has been assigned). Garaduino will
+display something like this:
+
+![Garaduino web interface](garaduino-web-interface.png)
 
 ## Home Assistant
 

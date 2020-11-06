@@ -17,6 +17,10 @@
 
 #pragma once
 
+#include <functional>
+#include <vector>
+#undef LITTLE_ENDIAN
+
 #include <Ethernet.h>
 #include <aWOT.h>
 
@@ -26,22 +30,29 @@ namespace Garaduino {
 
 class Web {
 public:
-    Web(TimerSet& timers) : timers(timers) {};
+    struct statusItem {
+	const char* label;
+	const String& value;
+    };
+
+    using statusItems = const std::vector<statusItem>;
+    using statusItemProvider = std::function<statusItems& ()>;
+
+    Web() = default;
     ~Web() {};
 
-    void start();
+    void start(TimerSet& timers);
+
+    bool addStatusItemProvider(const char* name, statusItemProvider&& provider);
 
     // ensure that these objects will never be copied or moved
     // (this could only happen by accident)
-    Web() = delete;
     Web(const Web&) = delete;
     Web& operator=(const Web&) = delete;
     Web(Web&&) = delete;
     Web& operator=(Web&&) = delete;
 
 private:
-    TimerSet& timers;
-
     EthernetServer server{80};
     Application app;
 

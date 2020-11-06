@@ -25,15 +25,16 @@
 #include <PubSubClient.h>
 
 #include "garaduino.hpp"
+#include "web.hpp"
 
 namespace Garaduino {
 
 class MQTT {
 public:
-    MQTT(TimerSet& timers) : timers(timers) {};
+    MQTT() = default;
     ~MQTT() {};
 
-    void start();
+    void start(TimerSet& timers, Web& web);
 
     bool publish(const char* topic, const char* payload);
     bool publish(const char* topic, const String& payload);
@@ -45,20 +46,20 @@ public:
 
     // ensure that these objects will never be copied or moved
     // (this could only happen by accident)
-    MQTT() = delete;
     MQTT(const MQTT&) = delete;
     MQTT& operator=(const MQTT&) = delete;
     MQTT(MQTT&&) = delete;
     MQTT& operator=(MQTT&&) = delete;
 
 private:
-    TimerSet& timers;
-
     EthernetClient ether{};
     PubSubClient mqtt{ether};
 
     bool connect();
     Timers::HandlerResult maintain();
+
+    String lastStateString{"not connected"};
+    Web::statusItems statusItems{{ "MQTT", lastStateString }};
 
     struct queuedMessage {
 	const char* topic;

@@ -21,8 +21,10 @@
 
 namespace Garaduino {
 
-void Light::start() {
+void Light::start(TimerSet& timers, Web& web) {
     mqtt.subscribe(MQTT_REFRESH_TOPIC, [this](const String &){ return refresh(); });
+
+    web.addStatusItemProvider("light", [this]()->auto& { return statusItems; });
 
     timers.now_and_every(LIGHT_SENSOR_POLL_SECS * 1000, [this]{ return maintain(); });
 }
@@ -30,7 +32,8 @@ void Light::start() {
 const Light::stateMapEntry& Light::getStateMapEntry() {
     int sense = analogRead(LIGHT_SENSOR);
 
-    mqtt.publish(MQTT_LIGHT_RAW_TOPIC, String(sense));
+    lastRawString = sense;
+    mqtt.publish(MQTT_LIGHT_RAW_TOPIC, lastRawString);
 
     for (auto& entry: map) {
 	if (sense <= entry.level) {
@@ -41,18 +44,19 @@ const Light::stateMapEntry& Light::getStateMapEntry() {
     return map.back();
 }
 
-void Light::publishState(const stateMapEntry& entry) {
+void Light::publishState() {
     DEBUG_PRINT(F("Light level is "));
-    DEBUG_PRINTLN(entry.state);
-    mqtt.publishAndRetain(MQTT_LIGHT_TOPIC, entry.state);
+    DEBUG_PRINTLN(lastStateString);
+    mqtt.publishAndRetain(MQTT_LIGHT_TOPIC, lastStateString);
 }
 
 Timers::HandlerResult Light::maintain() {
     const stateMapEntry& current{getStateMapEntry()};
 
     if (current.state != lastStateMapEntry.state) {
-	publishState(current);
 	lastStateMapEntry = current;
+	lastStateString = current.state;
+	publishState();
     }
 
     return Timers::TimerStatus::repeat;
@@ -60,7 +64,7 @@ Timers::HandlerResult Light::maintain() {
 
 void Light::refresh() {
     DEBUG_PRINTLN(F("light refresh"));
-    publishState(lastStateMapEntry);
+    publishState();
 }
 
 };

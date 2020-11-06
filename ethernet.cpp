@@ -23,7 +23,7 @@
 
 namespace Garaduino {
 
-void Ethernet::start() {
+void Ethernet::start(TimerSet& timers) {
     DEBUG_PRINT(F("Initializing Ethernet with DHCP..."));
 
     if (::Ethernet.begin(mac.data()) == 0) {

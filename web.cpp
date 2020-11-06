@@ -15,6 +15,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <array>
+#undef LITTLE_ENDIAN
+
 #include "web.hpp"
 
 #include "gitversion.hpp"
@@ -23,30 +26,144 @@
 
 namespace {
 
-void webHandlerIndex(Request& req, Response& res) {
+struct provider {
+    const char* name;
+    Garaduino::Web::statusItemProvider getItems;
+};
 
-    P(page) =
-	"<html>\n"
+using providerArray = std::array<provider, 8>;
+
+providerArray providers{};
+
+providerArray::iterator findSlotForProvider() {
+    return std::find_if(providers.begin(), providers.end(), [](provider& p) { return p.name == nullptr; });
+}
+
+void routeGetRoot(Request& req, Response& res) {
+    DEBUG_PRINTLN(F("Web: routeGetRoot"));
+    String host{req.get("Host")};
+    res.set("Location", (host + "/index.html").c_str());
+    res.sendStatus(301);
+}
+
+void routeGetIndex(Request& req, Response& res) {
+    DEBUG_PRINTLN(F("Web: routeGetIndex"));
+    P(pageHead) =
+	"<!doctype html>\n"
+	"<html lang=en>\n"
 	"<head>\n"
-	"<title>Garaduino - Version: " GIT_VERSION "</title>\n"
+	"<meta charset=utf-8>\n"
+	"<link rel=\"stylesheet\" href=\"/styles.css\">\n"
+	"<title>Garaduino</title>\n"
 	"</head>\n"
 	"<body>\n"
-	"<h1>Greetings middle earth!</h1>\n"
+	"<div class=\"wrapper\">\n"
+	"<header class=\"box header\">Garaduino</header>\n"
+	"<div class=\"box status-items\">\n";
+    P(pageFoot) =
+	"</div>\n"
+	"<footer class=\"box footer\">" GIT_VERSION "</footer>\n"
+	"</div>\n"
 	"</body>\n"
-	"</html>";
+	"</html>\n";
+    P(labelHead) =
+	"<div class=\"box label\">\n";
+    P(labelFoot) =
+	"</div>\n";
+    P(valueHead) =
+	"<div class=\"box value\">\n";
+    P(valueFoot) =
+	"</div>\n";
 
     res.set("Content-Type", "text/html");
-    res.printP(page);
+    res.printP(pageHead);
+    for (auto& provider: providers) {
+	if (provider.name != nullptr) {
+	    DEBUG_PRINT(F("Web: calling provider '"));
+	    DEBUG_PRINT(provider.name);
+	    DEBUG_PRINT(F("'..."));
+	    auto& items{provider.getItems()};
+	    for (auto& item: items) {
+		DEBUG_PRINT(F(" item: "));
+		DEBUG_PRINT(item.label);
+		DEBUG_PRINT(F(" ..."));
+		res.printP(labelHead);
+		res.println(item.label);
+		res.printP(labelFoot);
+		res.printP(valueHead);
+		res.println(item.value);
+		res.printP(valueFoot);
+	    }
+	    DEBUG_PRINTLN(F("done"));
+	}
+    }
+    res.printP(pageFoot);
+}
+
+void routeGetStyles(Request& req, Response& res) {
+    DEBUG_PRINTLN(F("Web: routeGetStyles"));
+    P(content) =
+	"*, *:before, *:after { box-sizing: border-box; }\n"
+	"body {\n"
+	"margin: 40px;\n"
+	"font-family: \"Open Sans\", \"sans-serif\";\n"
+	"}\n"
+	".wrapper {\n"
+	"max-width: 940px;\n"
+	"margin: 0 auto;\n"
+	"display: grid;\n"
+	"grid-gap: 10px;\n"
+	"grid-template-columns: 1fr;\n"
+	"}\n"
+	".wrapper > * {\n"
+	"width: auto;\n"
+	"margin: 0;\n"
+	"}\n"
+	".header {\n"
+	"text-align: center;\n"
+	"font-size: 150%;\n"
+	"}\n"
+	".footer {\n"
+	"text-align: right;\n"
+	"font-size: 75%;\n"
+	"}\n"
+	".status-items {\n"
+	"display: grid;\n"
+	"grid-gap: 10px;\n"
+	"grid-template-columns: 3fr 1fr;\n"
+	"}\n"
+	".status-items > * {\n"
+	"width: auto;\n"
+	"font-size: 125%;\n"
+	"margin: 0;\n"
+	"}\n"
+	".value {\n"
+	"text-align: center;\n"
+	"}\n"
+	".box {\n"
+	"background-color: #444;\n"
+	"color: #fff;\n"
+	"border-radius: 5px;\n"
+	"padding: 20px;\n"
+	"}\n"
+	".box .box {\n"
+	"background-color: #ccc;\n"
+	"color: #444;\n"
+	"}\n";
+    res.set("Content-Type", "text/css");
+    res.printP(content);
 }
 
 };
 
 namespace Garaduino {
 
-void Web::start() {
-    DEBUG_PRINT(F("Initializing Web..."));
+void Web::start(TimerSet& timers) {
+    DEBUG_PRINT(F("Web: initializing..."));
 
-    app.get("/", webHandlerIndex);
+    app.get("/", routeGetRoot);
+    app.get("/index.html", routeGetIndex);
+    app.get("/styles.css", routeGetStyles);
 
     DEBUG_PRINTLN(F(" done"));
 
@@ -61,6 +178,21 @@ Timers::HandlerResult Web::maintain() {
     }
 
     return Timers::TimerStatus::repeat;
+}
+
+bool Web::addStatusItemProvider(const char* name, statusItemProvider&& provider) {
+    DEBUG_PRINT(F("Web: trying to add status item provider '"));
+    DEBUG_PRINT(name);
+    DEBUG_PRINT(F("'..."));
+    if (auto slot = findSlotForProvider(); slot != providers.end()) {
+	slot->name = name;
+	slot->getItems = std::move(provider);
+	DEBUG_PRINTLN(F("added"));
+	return true;
+    } else {
+	DEBUG_PRINTLN(F("failed"));
+	return false;
+    }
 }
 
 };

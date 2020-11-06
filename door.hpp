@@ -18,20 +18,21 @@
 #pragma once
 
 #include "garaduino.hpp"
+#include "web.hpp"
 #include "mqtt.hpp"
 
 namespace Garaduino {
 
 class Door {
 public:
+    Door() = delete;
     Door(TimerSet& timers, MQTT& mqtt, PinNumber control, PinNumber sensor) : timers(timers), mqtt(mqtt), control(control), sensor(sensor) {};
     ~Door() {};
 
-    void start();
+    void start(Web& web);
 
     // ensure that these objects will never be copied or moved
     // (this could only happen by accident)
-    Door() = delete;
     Door(const Door&) = delete;
     Door& operator=(const Door&) = delete;
     Door(Door&&) = delete;
@@ -49,6 +50,8 @@ private:
 	closed
     };
     State lastState{State::unknown};
+    String lastStateString{"unknown"};
+    Web::statusItems statusItems{{ "Door", lastStateString }};
     unsigned long debounceStartTime{0};
     State getState();
     void publishState(State state);

@@ -20,6 +20,7 @@
 #include <vector>
 
 #include "garaduino.hpp"
+#include "web.hpp"
 #include "mqtt.hpp"
 
 namespace Garaduino {
@@ -33,28 +34,31 @@ public:
 
     using stateMap = std::vector<stateMapEntry>;
 
-    Light(TimerSet& timers, MQTT& mqtt, const stateMap& map, PinNumber sensor) : timers(timers), mqtt(mqtt), map(map), sensor(sensor) {};
+    Light() = delete;
+    Light(MQTT& mqtt, const stateMap& map, PinNumber sensor) : mqtt(mqtt), map(map), sensor(sensor) {};
     ~Light() {};
 
-    void start();
+    void start(TimerSet& timers, Web& web);
 
     // ensure that these objects will never be copied or moved
     // (this could only happen by accident)
-    Light() = delete;
     Light(const Light&) = delete;
     Light& operator=(const Light&) = delete;
     Light(Light&&) = delete;
     Light& operator=(Light&&) = delete;
 
 private:
-    TimerSet& timers;
     MQTT& mqtt;
     const stateMap& map;
     PinNumber sensor;
 
     stateMapEntry lastStateMapEntry{};
+    String lastStateString{"unknown"};
+    String lastRawString{"unknown"};
+    Web::statusItems statusItems{{ "Light", lastStateString }, { "Light (raw)", lastRawString}};
+
     const stateMapEntry& getStateMapEntry();
-    void publishState(const stateMapEntry& entry);
+    void publishState();
     void refresh();
 
     Timers::HandlerResult maintain();

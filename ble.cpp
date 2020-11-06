@@ -23,7 +23,7 @@
 
 namespace Garaduino {
 
-void BLE::start() {
+void BLE::start(Web& web) {
     DEBUG_PRINT(F("Initializing BLE..."));
 
     if (!::BLE.begin()) {
@@ -35,11 +35,13 @@ void BLE::start() {
 
     DEBUG_PRINTLN(F(" done"));
 
-    mqtt.subscribe(MQTT_REFRESH_TOPIC, [this](const String &){ return refresh(); });
+    mqtt.subscribe(MQTT_REFRESH_TOPIC, [this](const String &) { return refresh(); });
 
-    timers.every(BLE_POLL_SECS * 1000, [this]{ return maintain(); });
+    web.addStatusItemProvider("ble", [this]()->auto& { return statusItems; });
+
+    timers.every(BLE_POLL_SECS * 1000, [this] { return maintain(); });
     // setup an initial state publication if beacon is not seen
-    beacon_timer = timers.in(BLE_BEACON_TIMEOUT_SECS * 1000, [this]{ return expire(); });
+    beacon_timer = timers.in(BLE_BEACON_TIMEOUT_SECS * 1000, [this] { return expire(); });
 }
 
 Timers::HandlerResult BLE::maintain() {
@@ -65,23 +67,21 @@ Timers::HandlerResult BLE::maintain() {
 }
 
 void BLE::publishState(State state) {
-    String stateString;
-
     switch (state) {
     case State::absent:
-	stateString = "absent";
+	lastStateString = "absent";
 	break;
     case State::present:
-	stateString = "present";
+	lastStateString = "present";
 	break;
     case State::unknown:
-	stateString = "unknown";
+	lastStateString = "unknown";
 	break;
     }
 
     DEBUG_PRINT(F("Beacon is "));
-    DEBUG_PRINTLN(stateString);
-    mqtt.publishAndRetain(MQTT_BEACON_TOPIC, stateString);
+    DEBUG_PRINTLN(lastStateString);
+    mqtt.publishAndRetain(MQTT_BEACON_TOPIC, lastStateString);
 }
 
 Timers::HandlerResult BLE::expire() {

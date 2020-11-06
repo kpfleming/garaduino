@@ -18,20 +18,21 @@
 #pragma once
 
 #include "garaduino.hpp"
+#include "web.hpp"
 #include "mqtt.hpp"
 
 namespace Garaduino {
 
 class BLE {
 public:
+    BLE() = delete;
     BLE(TimerSet& timers, MQTT& mqtt) : timers(timers), mqtt(mqtt) {};
     ~BLE() {};
 
-    void start();
+    void start(Web& web);
 
     // ensure that these objects will never be copied or moved
     // (this could only happen by accident)
-    BLE() = delete;
     BLE(const BLE&) = delete;
     BLE& operator=(const BLE&) = delete;
     BLE(BLE&&) = delete;
@@ -49,6 +50,8 @@ private:
 	present
     };
     State lastState{State::unknown};
+    String lastStateString{"unknown"};
+    Web::statusItems statusItems{{ "Beacon", lastStateString }};
 
     void publishState(State state);
     void refresh();
