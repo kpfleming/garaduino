@@ -17,7 +17,6 @@
 
 #pragma once
 
-#include <functional>
 #include <vector>
 #undef LITTLE_ENDIAN
 
@@ -36,14 +35,13 @@ public:
     };
 
     using statusItems = const std::vector<statusItem>;
-    using statusItemProvider = std::function<statusItems& ()>;
 
     Web() = default;
     ~Web() {};
 
     void start(TimerSet& timers);
 
-    bool addStatusItemProvider(const char* name, statusItemProvider&& provider);
+    void addStatusItems(const char* name, statusItems& items);
 
     // ensure that these objects will never be copied or moved
     // (this could only happen by accident)

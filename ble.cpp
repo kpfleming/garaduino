@@ -37,7 +37,7 @@ void BLE::start(Web& web) {
 
     mqtt.subscribe(MQTT_REFRESH_TOPIC, [this](const String &) { return refresh(); });
 
-    web.addStatusItemProvider("ble", [this]()->auto& { return statusItems; });
+    web.addStatusItems("ble", statusItems);
 
     timers.every(BLE_POLL_SECS * 1000, [this] { return maintain(); });
     // setup an initial state publication if beacon is not seen

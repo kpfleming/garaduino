@@ -24,7 +24,7 @@ namespace Garaduino {
 void Light::start(TimerSet& timers, Web& web) {
     mqtt.subscribe(MQTT_REFRESH_TOPIC, [this](const String &){ return refresh(); });
 
-    web.addStatusItemProvider("light", [this]()->auto& { return statusItems; });
+    web.addStatusItems("light", statusItems);
 
     timers.now_and_every(LIGHT_SENSOR_POLL_SECS * 1000, [this]{ return maintain(); });
 }

@@ -28,7 +28,7 @@ void Door::start(Web& web) {
     mqtt.subscribe(MQTT_DOOR_CONTROL_TOPIC, [this](const String& msg) { return handleControlMessage(msg); });
     mqtt.subscribe(MQTT_REFRESH_TOPIC, [this](const String &) { return refresh(); });
 
-    web.addStatusItemProvider("door", [this]()->auto& { return statusItems; });
+    web.addStatusItems("door", statusItems);
 
     timers.now_and_every(DOOR_SENSOR_POLL_SECS * 1000, [this] { return maintain(); });
 }

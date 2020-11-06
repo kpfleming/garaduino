@@ -15,9 +15,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <array>
-#undef LITTLE_ENDIAN
-
 #include "web.hpp"
 
 #include "gitversion.hpp"
@@ -27,17 +24,12 @@
 namespace {
 
 struct provider {
+    provider(const char* name, Garaduino::Web::statusItems& items) : name(name), items(items) {};
     const char* name;
-    Garaduino::Web::statusItemProvider getItems;
+    Garaduino::Web::statusItems& items;
 };
 
-using providerArray = std::array<provider, 8>;
-
-providerArray providers{};
-
-providerArray::iterator findSlotForProvider() {
-    return std::find_if(providers.begin(), providers.end(), [](provider& p) { return p.name == nullptr; });
-}
+std::vector<provider> providers{};
 
 void routeGetRoot(Request& req, Response& res) {
     DEBUG_PRINTLN(F("Web: routeGetRoot"));
@@ -78,24 +70,21 @@ void routeGetIndex(Request& req, Response& res) {
     res.set("Content-Type", "text/html");
     res.printP(pageHead);
     for (auto& provider: providers) {
-	if (provider.name != nullptr) {
-	    DEBUG_PRINT(F("Web: calling provider '"));
-	    DEBUG_PRINT(provider.name);
-	    DEBUG_PRINT(F("'..."));
-	    auto& items{provider.getItems()};
-	    for (auto& item: items) {
-		DEBUG_PRINT(F(" item: "));
-		DEBUG_PRINT(item.label);
-		DEBUG_PRINT(F(" ..."));
-		res.printP(labelHead);
-		res.println(item.label);
-		res.printP(labelFoot);
-		res.printP(valueHead);
-		res.println(item.value);
-		res.printP(valueFoot);
-	    }
-	    DEBUG_PRINTLN(F("done"));
+	DEBUG_PRINT(F("Web: status provider "));
+	DEBUG_PRINT(provider.name);
+	DEBUG_PRINT(F(" ..."));
+	for (auto& item: provider.items) {
+	    DEBUG_PRINT(F(" item: "));
+	    DEBUG_PRINT(item.label);
+	    DEBUG_PRINT(F(" ..."));
+	    res.printP(labelHead);
+	    res.println(item.label);
+	    res.printP(labelFoot);
+	    res.printP(valueHead);
+	    res.println(item.value);
+	    res.printP(valueFoot);
 	}
+	DEBUG_PRINTLN(F("done"));
     }
     res.printP(pageFoot);
 }
@@ -161,6 +150,8 @@ namespace Garaduino {
 void Web::start(TimerSet& timers) {
     DEBUG_PRINT(F("Web: initializing..."));
 
+    providers.reserve(6);
+
     app.get("/", routeGetRoot);
     app.get("/index.html", routeGetIndex);
     app.get("/styles.css", routeGetStyles);
@@ -180,19 +171,8 @@ Timers::HandlerResult Web::maintain() {
     return Timers::TimerStatus::repeat;
 }
 
-bool Web::addStatusItemProvider(const char* name, statusItemProvider&& provider) {
-    DEBUG_PRINT(F("Web: trying to add status item provider '"));
-    DEBUG_PRINT(name);
-    DEBUG_PRINT(F("'..."));
-    if (auto slot = findSlotForProvider(); slot != providers.end()) {
-	slot->name = name;
-	slot->getItems = std::move(provider);
-	DEBUG_PRINTLN(F("added"));
-	return true;
-    } else {
-	DEBUG_PRINTLN(F("failed"));
-	return false;
-    }
+void Web::addStatusItems(const char* name, statusItems& items) {
+    providers.emplace_back(name, items);
 }
 
 };

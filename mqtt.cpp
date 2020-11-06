@@ -72,7 +72,7 @@ void MQTT::start(TimerSet& timers, Web& web) {
 	DEBUG_PRINTLN(F(" failed"));
     }
 
-    web.addStatusItemProvider("mqtt", [this]()->auto& { return statusItems; });
+    web.addStatusItems("mqtt", statusItems);
 
     timers.every(MQTT_POLL_SECS * 1000, [this]{ return maintain(); });
 }
