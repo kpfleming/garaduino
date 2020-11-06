@@ -19,24 +19,19 @@
 
 #include "config.hpp"
 
-#include <array>
+#include <vector>
 #include <algorithm>
 #include <cstring>
 
 namespace {
 
 struct subscription {
+    subscription(const char* topic, Garaduino::MQTT::subscriptionHandler&& handler): topic(topic), handler(std::move(handler)) {};
     const char* topic;
     Garaduino::MQTT::subscriptionHandler handler;
 };
 
-using subscriptionArray = std::array<subscription, 8>;
-
-subscriptionArray subscriptions{};
-
-subscriptionArray::iterator findSlotForSubscription() {
-    return std::find_if(subscriptions.begin(), subscriptions.end(), [](subscription& s) { return s.topic == nullptr; });
-}
+std::vector<subscription> subscriptions{};
 
 void callback(char* topic, byte* payload, unsigned int length) {
     String safeTopic{topic};
@@ -62,6 +57,8 @@ namespace Garaduino {
 
 void MQTT::start(TimerSet& timers, Web& web) {
     DEBUG_PRINT(F("Initializing MQTT..."));
+
+    subscriptions.reserve(8);
 
     mqtt.setServer(MQTT_BROKER_NAME, MQTT_BROKER_PORT);
     mqtt.setCallback(callback);
@@ -157,15 +154,8 @@ bool MQTT::publishAndRetain(const char* topic, const String& payload) {
     return publishAndRetain(topic, payload.c_str());
 }
 
-bool MQTT::subscribe(const char* topic, subscriptionHandler&& handler) {
-    if (auto slot = findSlotForSubscription(); slot != subscriptions.end()) {
-	slot->topic = topic;
-	slot->handler = std::move(handler);
-	mqtt.subscribe(topic);
-	return true;
-    } else {
-	return false;
-    }
+void MQTT::subscribe(const char* topic, subscriptionHandler&& handler) {
+    subscriptions.emplace_back(topic, std::move(handler));
 }
 
 };
