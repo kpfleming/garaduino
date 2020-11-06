@@ -77,10 +77,10 @@ installation of the necessary package. This sketch was developed using
 version 1.8.9 of the SAM board package.
 
 * Standard Arduino libraries:
-    * ([Ethernet](https://github.com/arduino-libraries/Ethernet)
-    * [ArduinoOTA](https://github.com/jandrassy/ArduinoOTA)
     * [ArduinoBLE](https://github.com/arduino-libraries/ArduinoBLE)
-    * [PubSubClient](https://github.com/knolleary/pubsubclient))
+    * [ArduinoOTA](https://github.com/jandrassy/ArduinoOTA)
+    * [Ethernet](https://github.com/arduino-libraries/Ethernet)
+    * [PubSubClient](https://github.com/knolleary/pubsubclient)
     * [aWOT](https://github.com/lasselukkari/aWOT)
 
     The simplest way to install them is to open the Arduino IDE and select
