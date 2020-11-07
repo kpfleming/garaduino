@@ -61,7 +61,12 @@ $(OBJDIR)/garaduino.ino.o $(OBJDIR)/web.cpp.o: gitversion.hpp
 gitversion.hpp:
 	@echo "#define GIT_VERSION \"$(shell git describe --long --tags)\"" > $@
 
-clean::
-	$(REMOVE) gitversion.hpp
+$(OBJDIR)/web.cpp.o: buildstamp.hpp
 
-.PHONY: gitversion.hpp
+buildstamp.hpp:
+	echo "#define BUILDSTAMP \"$(shell date '+%s')\"" > $@
+
+clean::
+	$(REMOVE) gitversion.hpp buildstamp.hpp
+
+.PHONY: gitversion.hpp buildstamp.hpp

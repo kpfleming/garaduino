@@ -18,6 +18,7 @@
 #include "web.hpp"
 
 #include "gitversion.hpp"
+#include "buildstamp.hpp"
 
 #include "config.hpp"
 
@@ -45,7 +46,7 @@ void routeGetIndex(Request& req, Response& res) {
 	"<html lang=en>\n"
 	"<head>\n"
 	"<meta charset=utf-8>\n"
-	"<link rel=\"stylesheet\" href=\"/styles.css\">\n"
+	"<link rel=\"stylesheet\" href=\"/" BUILDSTAMP "/styles.css\">\n"
 	"<title>Garaduino</title>\n"
 	"</head>\n"
 	"<body>\n"
@@ -140,6 +141,7 @@ void routeGetStyles(Request& req, Response& res) {
 	"color: #444;\n"
 	"}\n";
     res.set("Content-Type", "text/css");
+    res.set("Cache-Control", "public, max-age=31536000");
     res.printP(content);
 }
 
@@ -154,7 +156,7 @@ void Web::start(TimerSet& timers) {
 
     app.get("/", routeGetRoot);
     app.get("/index.html", routeGetIndex);
-    app.get("/styles.css", routeGetStyles);
+    app.get("/" BUILDSTAMP "/styles.css", routeGetStyles);
 
     DEBUG_PRINTLN(F(" done"));
 
