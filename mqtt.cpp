@@ -39,7 +39,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
     payload[length] = '\0';
     String safePayload{(char *)payload};
 
-    DEBUG_PRINT(F("MQTT message - topic: "));
+    DEBUG_PRINT(F("MQTT: topic: "));
     DEBUG_PRINT(safeTopic);
     DEBUG_PRINT(F(" payload: "));
     DEBUG_PRINTLN(safePayload);
@@ -56,7 +56,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
 namespace Garaduino {
 
 void MQTT::start(TimerSet& timers, Web& web) {
-    DEBUG_PRINT(F("Initializing MQTT..."));
+    DEBUG_PRINT(F("MQTT: initializing..."));
 
     subscriptions.reserve(8);
 
@@ -100,7 +100,7 @@ Timers::HandlerResult MQTT::maintain() {
     mqtt.loop();
 
     if (!mqtt.connected()) {
-	DEBUG_PRINT(F("Connecting MQTT..."));
+	DEBUG_PRINT(F("MQTT: connecting..."));
 	if (connect()) {
 	    DEBUG_PRINTLN(F(" done"));
 	} else {

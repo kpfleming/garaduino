@@ -52,7 +52,7 @@ void Door::publishState(State state) {
 	break;
     }
 
-    DEBUG_PRINT(F("Door is "));
+    DEBUG_PRINT(F("Door: is "));
     DEBUG_PRINTLN(lastStateString);
     mqtt.publishAndRetain(MQTT_DOOR_SENSOR_TOPIC, lastStateString);
 }
@@ -78,13 +78,13 @@ Timers::HandlerResult Door::maintain() {
 
 void Door::handleControlMessage(const String& message) {
     if (message.equals("OPEN")) {
-	DEBUG_PRINTLN(F("Opening door"));
+	DEBUG_PRINTLN(F("Door: opening"));
 	triggerOpener();
     } else if (message.equals("CLOSE")) {
-	DEBUG_PRINTLN(F("Closing door"));
+	DEBUG_PRINTLN(F("Door: closing"));
 	triggerOpener();
     } else {
-	DEBUG_PRINT(F("Unsupported command received: "));
+	DEBUG_PRINT(F("Door: Unsupported command received: "));
 	DEBUG_PRINTLN(message);
     }
 }
@@ -102,7 +102,7 @@ Timers::HandlerResult Door::setControl(int state) {
 }
 
 void Door::refresh() {
-    DEBUG_PRINTLN(F("door refresh"));
+    DEBUG_PRINTLN(F("Door: refresh"));
     publishState(lastState);
 }
 

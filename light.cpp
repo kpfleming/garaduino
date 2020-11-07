@@ -45,7 +45,7 @@ const Light::stateMapEntry& Light::getStateMapEntry() {
 }
 
 void Light::publishState() {
-    DEBUG_PRINT(F("Light level is "));
+    DEBUG_PRINT(F("Light: level is "));
     DEBUG_PRINTLN(lastStateString);
     mqtt.publishAndRetain(MQTT_LIGHT_TOPIC, lastStateString);
 }
@@ -63,7 +63,7 @@ Timers::HandlerResult Light::maintain() {
 }
 
 void Light::refresh() {
-    DEBUG_PRINTLN(F("light refresh"));
+    DEBUG_PRINTLN(F("Light: refresh"));
     publishState();
 }
 

@@ -57,7 +57,7 @@ void publishVersion() {
 }
 
 void refresh(const String&) {
-    DEBUG_PRINTLN(F("core refresh"));
+    DEBUG_PRINTLN(F("Core: refresh"));
     publishVersion();
 }
 

@@ -24,7 +24,7 @@
 namespace Garaduino {
 
 void BLE::start(Web& web) {
-    DEBUG_PRINT(F("Initializing BLE..."));
+    DEBUG_PRINT(F("BLE: initializing..."));
 
     if (!::BLE.begin()) {
 	DEBUG_PRINTLN(F(" failed."));
@@ -79,7 +79,7 @@ void BLE::publishState(State state) {
 	break;
     }
 
-    DEBUG_PRINT(F("Beacon is "));
+    DEBUG_PRINT(F("BLE: beacon is "));
     DEBUG_PRINTLN(lastStateString);
     mqtt.publishAndRetain(MQTT_BEACON_TOPIC, lastStateString);
 }
@@ -96,7 +96,7 @@ Timers::HandlerResult BLE::expire() {
 }
 
 void BLE::refresh() {
-    DEBUG_PRINTLN(F("BLE refresh"));
+    DEBUG_PRINTLN(F("BLE: refresh"));
     publishState(lastState);
 }
 

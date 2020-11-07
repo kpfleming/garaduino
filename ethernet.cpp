@@ -24,12 +24,12 @@
 namespace Garaduino {
 
 void Ethernet::start(TimerSet& timers) {
-    DEBUG_PRINT(F("Initializing Ethernet with DHCP..."));
+    DEBUG_PRINT(F("Ethernet: initializing with DHCP..."));
 
     if (::Ethernet.begin(mac.data()) == 0) {
 	DEBUG_PRINTLN(F(" failed"));
 	if (::Ethernet.hardwareStatus() == EthernetNoHardware) {
-	    DEBUG_PRINTLN(F("Ethernet hardware was not found."));
+	    DEBUG_PRINTLN(F("Ethernet: hardware was not found."));
 	}
 	// no point in carrying on, so do nothing forevermore:
 	while (true);
@@ -44,25 +44,25 @@ Timers::HandlerResult Ethernet::maintain() {
     switch (::Ethernet.maintain()) {
     case 1:
 	//renewal failed
-	DEBUG_PRINTLN(F("DHCP: renewal failed"));
+	DEBUG_PRINTLN(F("Ethernet: DHCP renewal failed"));
 	break;
 
     case 2:
 	//renewal succeeded
-	DEBUG_PRINTLN(F("DHCP: renewal succeeded"));
-	DEBUG_PRINT(F("DHCP: IPv4 address is "));
+	DEBUG_PRINTLN(F("Ethernet: DHCP renewal succeeded"));
+	DEBUG_PRINT(F("Ethernet: DHCP IPv4 address is "));
 	DEBUG_PRINTLN(::Ethernet.localIP());
 	break;
 
     case 3:
 	//rebinding failed
-	DEBUG_PRINTLN(F("DHCP: rebinding failed"));
+	DEBUG_PRINTLN(F("Ethernet: DHCP rebinding failed"));
 	break;
 
     case 4:
 	//rebinding succeeded
-	DEBUG_PRINTLN(F("DHCP: rebinding succeeded"));
-	DEBUG_PRINT(F("DHCP: IPv4 address is "));
+	DEBUG_PRINTLN(F("Ethernet: DHCP rebinding succeeded"));
+	DEBUG_PRINT(F("Ethernet: DHCP IPv4 address is "));
 	DEBUG_PRINTLN(::Ethernet.localIP());
 	break;
 
