@@ -26,7 +26,7 @@
 namespace {
 
 struct subscription {
-    subscription(const char* topic, Garaduino::MQTT::subscriptionHandler&& handler): topic(topic), handler(std::move(handler)) {};
+    subscription(const char* topic, Garaduino::MQTT::subscriptionHandler&& handler) : topic(topic), handler(std::move(handler)) {};
     const char* topic;
     Garaduino::MQTT::subscriptionHandler handler;
 };
@@ -156,6 +156,7 @@ bool MQTT::publishAndRetain(const char* topic, const String& payload) {
 
 void MQTT::subscribe(const char* topic, subscriptionHandler&& handler) {
     subscriptions.emplace_back(topic, std::move(handler));
+    mqtt.subscribe(topic);
 }
 
 };
