@@ -63,7 +63,7 @@ void refresh(const String&) {
 
 void setup() {
 #ifdef SERIAL_DEBUG
-    Serial.begin(9600);
+    Serial.begin(SERIAL_DEBUG_BAUDRATE);
     while(!Serial);
 #endif
 
