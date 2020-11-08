@@ -107,7 +107,7 @@ need to modify the Arduino IDE toolchain configuration to support
 C++17 mode in the compiler. GNU Make will also be required, and can be
 installed using your operating system's normal software installation
 tools. For monitoring the output of the Arduino (when a DEBUG build is
-in place), GNU Screen will be required too. Clone this repository into
+in place), see the Debugging section below. Clone this repository into
 a suitable location.
 
 * MQTT broker. An MQTT broker will be required to communicate with
@@ -161,6 +161,10 @@ using the Eddystone Android app.
 ## Software Configuration, Build, and Installation
 
 See [BUILD](BUILD.md).
+
+## Debugging
+
+See [DEBUG](DEBUG.md).
 
 ## Web interface
 

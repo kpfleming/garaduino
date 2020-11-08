@@ -21,9 +21,20 @@
 
 #include <arduino-timer-cpp17.hpp>
 
+#if defined(SERIAL_DEBUG) && defined(NET_DEBUG)
+#error Cannot define both SERIAL_DEBUG and NET_DEBUG.
+#endif
+
+#if defined(SERIAL_DEBUG) || defined(NET_DEBUG)
 #ifdef SERIAL_DEBUG
 #define DEBUG_PRINT(x) Serial.print(x)
 #define DEBUG_PRINTLN(x) Serial.println(x)
+#else
+#include <Client.h>
+extern Client* debugClient;
+#define DEBUG_PRINT(x) if ((debugClient != nullptr) && *debugClient) debugClient->print(x)
+#define DEBUG_PRINTLN(x) if ((debugClient != nullptr) && *debugClient) debugClient->println(x)
+#endif
 #else
 #define DEBUG_PRINT(x)
 #define DEBUG_PRINTLN(x)

@@ -10,12 +10,14 @@ MONITOR_PORT=<port>
 
 ARDUINO_LIBS=arduino-timer-cpp17-4.5.0
 
-ARDUINO_OTA_TARGET=ip.ip.ip.ip-or-hostname
+ARDUINO_HOST=ip.ip.ip.ip-or-hostname
 ARDUINO_OTA_PORT=65280
 ARDUINO_OTA_USERNAME=arduino
 ARDUINO_OTA_PASSWORD=password
+ARDUINO_NET_DEBUG_PORT=64440
 
 SERIAL_DEBUG=
+NET_DEBUG=
 OPTIMIZATION_LEVEL=s
 
 # End of configuration settings
@@ -27,6 +29,9 @@ ifdef SERIAL_DEBUG
 MONITOR_BAUDRATE=115200
 CPPFLAGS+=-DSERIAL_DEBUG -DSERIAL_DEBUG_BAUDRATE=$(MONITOR_BAUDRATE)
 endif
+
+ifdef NET_DEBUG
+CPPFLAGS+=-DNET_DEBUG -DNET_DEBUG_PORT=$(ARDUINO_NET_DEBUG_PORT)
 endif
 
 CXXFLAGS_STD=-std=gnu++17
@@ -56,7 +61,10 @@ else
 endif
 
 ota: $(TARGET_BIN) verify_size
-	$(ARDUINO_OTA) -address $(ARDUINO_OTA_TARGET) -port $(ARDUINO_OTA_PORT) -username $(ARDUINO_OTA_USERNAME) -password $(ARDUINO_OTA_PASSWORD) -sketch $(TARGET_BIN) -upload /sketch -b
+	$(ARDUINO_OTA) -address $(ARDUINO_HOST) -port $(ARDUINO_OTA_PORT) -username $(ARDUINO_OTA_USERNAME) -password $(ARDUINO_OTA_PASSWORD) -sketch $(TARGET_BIN) -upload /sketch -b
+
+net_monitor:
+	nc --recv-only $(ARDUINO_HOST) $(ARDUINO_NET_DEBUG_PORT)
 
 $(OBJDIR)/garaduino.ino.o $(OBJDIR)/web.cpp.o: gitversion.hpp
 
@@ -71,4 +79,4 @@ buildstamp.hpp:
 clean::
 	$(REMOVE) gitversion.hpp buildstamp.hpp
 
-.PHONY: gitversion.hpp buildstamp.hpp
+.PHONY: gitversion.hpp buildstamp.hpp net_monitor

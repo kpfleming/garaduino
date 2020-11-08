@@ -30,6 +30,12 @@
 
 #include "config.hpp"
 
+#ifdef NET_DEBUG
+EthernetServer debugServer{NET_DEBUG_PORT};
+EthernetClient _debugClient{};
+Client* debugClient{nullptr};
+#endif
+
 namespace {
 
 Garaduino::TimerSet timers;
@@ -73,6 +79,12 @@ void setup() {
 
     heartbeat.start();
     ethernet.start(timers);
+#ifdef NET_DEBUG
+    do {
+	_debugClient = debugServer.accept();
+    } while (!_debugClient);
+    debugClient = &_debugClient;
+#endif
     web.start(timers);
     ota.start(timers);
     mqtt.start(timers, web);

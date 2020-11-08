@@ -72,7 +72,7 @@ Arduino IDE when the board is connected.
 * ARDUINO_LIBS - Confirm that the version number of
 arduino-timer-cpp17 matches the version which was installed.
 
-* ARDUINO_OTA_TARGET - Set this to the IPv4 address of the Arduino
+* ARDUINO_HOST - Set this to the IPv4 address of the Arduino
 board (from the bootstrap step), or hostname which maps to that
 address if a hostname has been configured in DNS or in the computer's
 hosts file.
